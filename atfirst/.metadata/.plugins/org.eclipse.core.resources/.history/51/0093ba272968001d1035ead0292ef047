@@ -1,0 +1,234 @@
+package com.java.project.Controllers;
+
+
+
+
+import java.util.List;
+
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import com.java.project.Models.Cars;
+import com.java.project.Models.Login;
+import com.java.project.Models.User;
+import com.java.project.Serveses.Serveses;
+
+@Controller
+public class Controllers {
+	 @Autowired
+	public final Serveses userServ;
+
+	 public Controllers(Serveses userServes) {
+		
+		this.userServ = userServes;
+	}
+	 @GetMapping("/login")
+	    public String index(Model model) {
+	        model.addAttribute("newUser", new User());
+	        model.addAttribute("newLogin", new Login());
+	        return "login.jsp";
+	    }
+	    @PostMapping("/register")
+	    public String register(@Valid @ModelAttribute("newUser") User newUser, 
+	            BindingResult result, Model model, HttpSession session) {
+	    	userServ.register(newUser, result);
+	        if(result.hasErrors()) {
+	            // Be sure to send in the empty LoginUser before 
+	            // re-rendering the page.
+	            model.addAttribute("newLogin", new Login());
+	            return "login.jsp";
+	        }
+	        session.setAttribute("user_id", newUser.getId());
+	        return "redirect:/";
+	    }
+
+	    @PostMapping("/login")
+	    public String login(@Valid @ModelAttribute("newLogin") Login newLogin, 
+	            BindingResult result, Model model, HttpSession session) {
+
+	        // Add once service is implemented:
+	         User user = userServ.login(newLogin, result);
+	        if(result.hasErrors()) {
+	            model.addAttribute("newUser", new User());
+	            return "login.jsp";
+	        }
+	        session.setAttribute("user_id", user.getId());
+	        return "redirect:/";
+	    }
+	    @GetMapping("/logout")
+	    public String logout(HttpSession session) {
+	    	session.invalidate();
+	    	return "redirect:/";
+
+	    }
+	    @GetMapping("/")
+	    public String home(Model model,HttpSession session) {
+//	    	List<Team> projects = userServ.findAll();
+//	    	model.addAttribute("team", projects);
+	    	if(session.getAttribute("user_id")!=null){
+	    	User user = userServ.findUser((Long) session.getAttribute("user_id"));
+	    	
+//	    	List<Projects> projects2 = userServ.allos(user);
+//	    	model.addAttribute("projects2", projects2);
+	    	model.addAttribute("user", user);}
+	    	
+	    	return "ShowAll.jsp";
+	    }
+	    @GetMapping("/home/{id}")
+	    public String home1(@PathVariable("id")Long id ,Model model,HttpSession session) {
+
+	    	if(session.getAttribute("user_id")!=null){
+	    		User user = userServ.findUser((Long) session.getAttribute("user_id"));
+	    		Cars car=userServ.findCarById(id);
+
+	    		model.addAttribute("user", user);}
+	    	List<Cars> d= user.getCars();
+	    	model.addAttribute("allcars", allcars);
+	    	return "ShowAll.jsp";
+	    }
+	    
+	    @GetMapping("/newcar")
+	    public String Addcar(@ModelAttribute("addcar") Cars car  ,Model model,HttpSession session) {
+	    	
+	    	User user = userServ.findUser((Long) session.getAttribute("user_id"));
+	    	
+	    	model.addAttribute("user", user);
+	    	
+	    	return "addcar.jsp";
+	    	
+	    }
+	    @PostMapping("/addcar")
+	    public String createCar(@Valid @ModelAttribute("car") Cars car ,BindingResult result ,Model model,HttpSession session) {
+	        if (result.hasErrors()) {
+	            return "addcar.jsp";
+	        } else {
+	        	
+	         	userServ.createcar(car);
+	    		User user = userServ.findUser((Long)session.getAttribute("user_id"));
+//	         	user.getTeams().add(car);
+//	    		userServ.createTeam(car);
+	            return "redirect:/";
+	        }
+	    }
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+//	    @PostMapping("/newteam")
+//	    public String createProject(@Valid @ModelAttribute("team") Team team ,BindingResult result ,Model model,HttpSession session) {
+//	        if (result.hasErrors()) {
+//	            return "create.jsp";
+//	        } else {
+//
+//	         	userServ.createTeam(team);
+//	    		User user = userServ.findUser((Long)session.getAttribute("user_id"));
+//	         	user.getTeams().add(team);
+//	    		userServ.createTeam(team);
+//	            return "redirect:/dashboard";
+//	        }
+//	    }
+//	    @RequestMapping("/create")
+//	    public String addProject(HttpSession session,@ModelAttribute("team") Team team,Model model) {
+//	    	model.addAttribute("newLogin", new Team());
+//	    	model.addAttribute("user",userServ.findUser((Long) session.getAttribute("user_id")));
+//	    	return "create.jsp";
+//	    	
+//	    }
+//
+//	     @GetMapping("/showteam/{id}")
+//	   	 public String showP(@PathVariable("id")Long id,Model model,HttpSession session) {
+//	    	 User user=userServ.findUser((Long) session.getAttribute("user_id"));
+//	    	 model.addAttribute("user",user);
+//	   		 Team team= userServ.findTeam(id);
+//	          List<User> users = userServ.findAllUser();
+////	          team.getPlayers()
+//	   		model.addAttribute("AllPlayers", users);
+//	          
+//	   		 model.addAttribute("team", team);
+//	   		 return "Showteam.jsp";
+//	   	 }
+//	     
+//	     
+//	     @GetMapping("edit/{id}")
+//	  	 public String edit(@PathVariable("id")Long id,Model model) {
+//	  		 Team project = userServ.findTeam(id);
+//	  		 model.addAttribute("editteam", project);
+//	  		 return "Edit.jsp";
+//	  	 }
+//	      @PutMapping("/editteams/{id}")
+//	  	 public String update(@Valid @ModelAttribute("editteam") Team team,BindingResult result,HttpSession session) {
+//	  		   if (result.hasErrors()) {
+//	  	            return "Edit.jsp";
+//	  	            }
+//	  		   else {
+//	  			 userServ.createTeam(team);
+//	  			 User user = userServ.findUser((Long)session.getAttribute("user_id"));
+//	  			user.getTeams().add(team);
+//	     		userServ.createTeam(team);
+//
+//	  			   return "redirect:/dashboard";
+//	  		   }
+//	  	 }
+//	      @DeleteMapping("/delete/{id}")
+//	      public String delete(@PathVariable("id")Long id) {
+////	    	  Team project = userServ.findTeam(id);
+//	    	  userServ.deleteTeam(id);
+//	    	  return "redirect:/dashboard";
+//	      }
+//	      @PostMapping("/AddPlayer/{id}")
+//	        public String AddPlayer(@Valid @ModelAttribute("player") User player, BindingResult result ,Model model ,@PathVariable("id") Long id, @RequestParam(name = "SelectPlayer") Long PlayerID) {
+//	            Team thisTeam = userServ.findTeam(id);
+////	            User playerr = userServ.findUser(PlayerID);
+//	            
+////	            List<User> users = userServ.findAllUser();
+////	            model.addAttribute("AllPlayers", users);
+////	            thisTeam.getUsers().add(Player);
+//	            thisTeam.getPlayers().add(player);
+//	            
+//	            userServ.createTeam(thisTeam);
+//	            userServ.updateUser1(player);
+//	            return "redirect:/home";
+//	        }
+	     
+	      
+	      
+//	      
+//	      @PostMapping("/AddPlayer/{id}")
+//	        public String AddPlayer(@Valid @ModelAttribute("player") User player, BindingResult result ,Model model ,@PathVariable("id") Long id, @RequestParam(name = "SelectPlayer") Long PlayerID) {
+//	            Team thisTeam = userServ.findTeam(id);
+//	            User newPlayer = userServ.findUser(PlayerID);
+//	            thisTeam.getPlayers().add(newPlayer);
+//	            
+//	            userServ.updateTeam(thisTeam);
+//	            userServ.updateUser1(newPlayer);
+//	            return "redirect:/showteam/{id}";
+//	        }
+//	      
+//	      
+	     
+	   
+	     
+	     
+	     
+	     
+	     
+	     
+	     
+	     
+	     
+	     
+	     
+}

@@ -3,6 +3,8 @@ package com.java.project.Controllers;
 
 
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -12,8 +14,10 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.java.project.Models.Cars;
 import com.java.project.Models.Login;
 import com.java.project.Models.User;
 import com.java.project.Serveses.Serveses;
@@ -27,7 +31,7 @@ public class Controllers {
 		
 		this.userServ = userServes;
 	}
-	 @GetMapping("/")
+	 @GetMapping("/login")
 	    public String index(Model model) {
 	        model.addAttribute("newUser", new User());
 	        model.addAttribute("newLogin", new Login());
@@ -44,7 +48,7 @@ public class Controllers {
 	            return "login.jsp";
 	        }
 	        session.setAttribute("user_id", newUser.getId());
-	        return "redirect:/dashboard";
+	        return "redirect:/";
 	    }
 
 	    @PostMapping("/login")
@@ -58,7 +62,7 @@ public class Controllers {
 	            return "login.jsp";
 	        }
 	        session.setAttribute("user_id", user.getId());
-	        return "redirect:/dashboard";
+	        return "redirect:/";
 	    }
 	    @GetMapping("/logout")
 	    public String logout(HttpSession session) {
@@ -66,18 +70,73 @@ public class Controllers {
 	    	return "redirect:/";
 
 	    }
-	    @GetMapping("/dashboard")
+	    @GetMapping("/")
 	    public String home(Model model,HttpSession session) {
 //	    	List<Team> projects = userServ.findAll();
 //	    	model.addAttribute("team", projects);
+	    	if(session.getAttribute("user_id")!=null){
 	    	User user = userServ.findUser((Long) session.getAttribute("user_id"));
+	    	
 //	    	List<Projects> projects2 = userServ.allos(user);
-
 //	    	model.addAttribute("projects2", projects2);
-
-	    	model.addAttribute("user", user);
+	    	model.addAttribute("user", user);}
+	    	
 	    	return "ShowAll.jsp";
 	    }
+	    @GetMapping("/home")
+	    public String home1(@ModelAttribute("addcar") Cars car,Model model,HttpSession session) {
+
+	    	if(session.getAttribute("user_id")!=null){
+	    		User user = userServ.findUser((Long) session.getAttribute("user_id"));
+//	    		Cars car=userServ.findCarById(id);
+
+	    		model.addAttribute("user", user);}
+	    	
+	    	return "ShowAll.jsp";
+	    }
+	    
+	    @GetMapping("/newcar")
+	    public String Addcar(@ModelAttribute("addcar") Cars car  ,Model model,HttpSession session) {
+	    	
+	    	User user = userServ.findUser((Long) session.getAttribute("user_id"));
+	    	
+	    	model.addAttribute("user", user);
+	    	
+	    	return "addcar.jsp";
+	    	
+	    }
+	    @GetMapping("/showcar")
+	    public String ShowCar(Model model,HttpSession session) {
+	    	
+	    	User user = userServ.findUser((Long) session.getAttribute("user_id"));
+	    	
+	    	model.addAttribute("user", user);
+	    	List<Cars> Allcars= userServ.findAllCars();
+	    	model.addAttribute("allcars", Allcars);
+	    	return "ShowCars.jsp";
+	    	
+	    }
+	    @PostMapping("/addcar")
+	    public String createCar(@Valid @ModelAttribute("addcar") Cars car ,BindingResult result ,Model model,HttpSession session) {
+	        if (result.hasErrors()) {
+	            return "addcar.jsp";
+	        } else {
+	        	
+	         	userServ.createcar(car);
+	    		User user = userServ.findUser((Long)session.getAttribute("user_id"));
+//	         	user.getTeams().add(car);
+//	    		userServ.createTeam(car);
+	            return "redirect:/home";
+	        }
+	    }
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
 //	    @PostMapping("/newteam")
 //	    public String createProject(@Valid @ModelAttribute("team") Team team ,BindingResult result ,Model model,HttpSession session) {
 //	        if (result.hasErrors()) {

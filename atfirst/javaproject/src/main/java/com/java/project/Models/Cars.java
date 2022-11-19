@@ -24,7 +24,7 @@ public class Cars {
 	    @Size(min=3, max=30, message="cartype must be between 3 and 30 characters")
 	    private String cartype;
 	    
-	    @NotEmpty(message="model is required!")
+
 	    @Min(1990)
 	    @Max(2022)
 	    private int model;

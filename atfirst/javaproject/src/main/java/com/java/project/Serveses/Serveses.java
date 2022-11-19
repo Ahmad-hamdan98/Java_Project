@@ -1,5 +1,6 @@
 package com.java.project.Serveses;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.mindrot.jbcrypt.BCrypt;
@@ -7,9 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
+import com.java.project.Models.Cars;
 import com.java.project.Models.Login;
 import com.java.project.Models.User;
+import com.java.project.Repositories.carRepo;
 import com.java.project.Repositories.userRepo;
+
+
 
 
 
@@ -18,8 +23,8 @@ public class Serveses {
     
     @Autowired
     private userRepo userRepo;
-//    @Autowired
-//    private teamRepo teamRepo;
+    @Autowired
+    private carRepo carRepo;
 //    @Autowired
 //    TaskRepo taskRepo;
     
@@ -71,9 +76,18 @@ public class Serveses {
 			return null;
 		}
 	}
-//    public Team createTeam(Team team) {
-//		return teamRepo.save(team);
-//	}
+    public Cars findCarById(Long id) {
+    	Optional<Cars> user = carRepo.findById(id);
+    	if(user.isPresent()) {
+    		return user.get();
+    	}
+    	else {
+    		return null;
+    	}
+    }
+    public Cars createcar(Cars team) {
+		return carRepo.save(team);
+	}
 //    public Team findTeam(Long id) {
 //		Optional<Team> book = teamRepo.findById(id);
 //		if(book.isPresent()) {
@@ -85,9 +99,9 @@ public class Serveses {
 //    }
 	
     
-//    public List<Team> findAll(){
-//		return teamRepo.findAll();
-//	}
+    public List<Cars> findAllCars(){
+		return carRepo.findAll();
+	}
 //    public List<User> findAllUser(){
 //    	return userRepo.findAll();
 //    }
