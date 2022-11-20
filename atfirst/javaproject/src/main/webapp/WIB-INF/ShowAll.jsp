@@ -64,6 +64,8 @@
     <c:choose>
     	<c:when test="${user.id!=Null}"> 
 	<h1>Welcome ${user.userName}</h1>  
+  <a href="/newcar" class="btn btn-secondary">Add New Car</a>
+  <a href="/showcar" class="btn btn-secondary">Show My Cars</a>
   </c:when>
   </c:choose> 
       <c:choose>
@@ -72,8 +74,8 @@
   		<a href="/addpart" class="btn btn-secondary">Add New Parts</a></p>
    </c:when>
   </c:choose> 
-  <a href="/newcar" class="btn btn-secondary">Add New Car</a>
-  <a href="/showcar" class="btn btn-secondary">Show My Cars</a>
+  
+  
   
 
   
