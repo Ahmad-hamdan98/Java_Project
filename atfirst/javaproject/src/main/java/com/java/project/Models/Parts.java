@@ -12,9 +12,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -34,10 +36,10 @@ public class Parts {
 	    @Size(min=3, max=100, message="description must be between 3 and 100 characters")
 	    private String description;
 	    
-	    @NotEmpty(message="price is required!")
+	    @NotNull
 	    @Min(1)
 	    private int price;
-	    @NotEmpty(message="amount is required!")
+	    @NotNull
 	    @Min(1)
 	    private int amount;
 	    
@@ -58,55 +60,84 @@ public class Parts {
 	    )
 	    private List<orders> orders;
 	    
-	    //--------------------------------------------------getter&Setter-----
+	    @ManyToOne(fetch = FetchType.LAZY)
+	    @JoinColumn(name="user_id")
+		private User user;
+	    
+//----------------------------------------------------------------------------------------
 		public Long getId() {
 			return id;
 		}
+
 		public void setId(Long id) {
 			this.id = id;
 		}
+
 		public String getPartName() {
 			return partName;
 		}
+
 		public void setPartName(String partName) {
 			this.partName = partName;
 		}
+
 		public String getDescription() {
 			return description;
 		}
+
 		public void setDescription(String description) {
 			this.description = description;
 		}
+
 		public int getPrice() {
 			return price;
 		}
+
 		public void setPrice(int price) {
 			this.price = price;
 		}
+
 		public int getAmount() {
 			return amount;
 		}
+
 		public void setAmount(int amount) {
 			this.amount = amount;
 		}
+
 		public Date getCreatedAt() {
 			return createdAt;
 		}
+
 		public void setCreatedAt(Date createdAt) {
 			this.createdAt = createdAt;
 		}
+
 		public Date getUpdatedAt() {
 			return updatedAt;
 		}
+
 		public void setUpdatedAt(Date updatedAt) {
 			this.updatedAt = updatedAt;
 		}
+
 		public List<orders> getOrders() {
 			return orders;
 		}
+
 		public void setOrders(List<orders> orders) {
 			this.orders = orders;
 		}
+
+		public User getUser() {
+			return user;
+		}
+
+		public void setUser(User user) {
+			this.user = user;
+		}
+	    
+	    //--------------------------------------------------getter&Setter-----
 	
 	    
 }

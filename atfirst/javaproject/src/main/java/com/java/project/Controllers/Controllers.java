@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.java.project.Models.Cars;
 import com.java.project.Models.Login;
+import com.java.project.Models.Parts;
 import com.java.project.Models.User;
 import com.java.project.Serveses.Serveses;
 
@@ -48,7 +49,7 @@ public class Controllers {
 	            return "login.jsp";
 	        }
 	        session.setAttribute("user_id", newUser.getId());
-	        return "redirect:/";
+	        return "redirect:/home";
 	    }
 
 	    @PostMapping("/login")
@@ -62,14 +63,15 @@ public class Controllers {
 	            return "login.jsp";
 	        }
 	        session.setAttribute("user_id", user.getId());
-	        return "redirect:/";
+	        return "redirect:/home";
 	    }
 	    @GetMapping("/logout")
 	    public String logout(HttpSession session) {
 	    	session.invalidate();
-	    	return "redirect:/";
+	    	return "redirect:/welcome";
 
 	    }
+//-------------------------------------------------------------------------------------------	    
 	    @GetMapping("/")
 	    public String home(Model model,HttpSession session) {
 //	    	List<Team> projects = userServ.findAll();
@@ -81,8 +83,20 @@ public class Controllers {
 //	    	model.addAttribute("projects2", projects2);
 	    	model.addAttribute("user", user);}
 	    	
-	    	return "ShowAll.jsp";
+	    	return "redirect:/welcome";
 	    }
+	    @GetMapping("/welcome")
+	    public String home2(@ModelAttribute("addcar") Cars car,Model model,HttpSession session) {
+
+	    	if(session.getAttribute("user_id")!=null){
+	    		User user = userServ.findUser((Long) session.getAttribute("user_id"));
+//	    		Cars car=userServ.findCarById(id);
+
+	    		model.addAttribute("user", user);}
+	    	
+	    	return "Welcome.jsp";
+	    }
+	    
 	    @GetMapping("/home")
 	    public String home1(@ModelAttribute("addcar") Cars car,Model model,HttpSession session) {
 
@@ -94,7 +108,7 @@ public class Controllers {
 	    	
 	    	return "ShowAll.jsp";
 	    }
-	    
+//------------------------------------------------------------------------------------------------	    
 	    @GetMapping("/newcar")
 	    public String Addcar(@ModelAttribute("addcar") Cars car  ,Model model,HttpSession session) {
 	    	
@@ -105,17 +119,7 @@ public class Controllers {
 	    	return "addcar.jsp";
 	    	
 	    }
-	    @GetMapping("/showcar")
-	    public String ShowCar(Model model,HttpSession session) {
-	    	
-	    	User user = userServ.findUser((Long) session.getAttribute("user_id"));
-	    	
-	    	model.addAttribute("user", user);
-	    	List<Cars> Allcars= userServ.findAllCars();
-	    	model.addAttribute("allcars", Allcars);
-	    	return "ShowCars.jsp";
-	    	
-	    }
+	   
 	    @PostMapping("/addcar")
 	    public String createCar(@Valid @ModelAttribute("addcar") Cars car ,BindingResult result ,Model model,HttpSession session) {
 	        if (result.hasErrors()) {
@@ -129,6 +133,18 @@ public class Controllers {
 	            return "redirect:/home";
 	        }
 	    }
+	    @GetMapping("/showcar")
+	    public String ShowCar(Model model,HttpSession session) {
+	    	
+	    	User user = userServ.findUser((Long) session.getAttribute("user_id"));
+	    	
+	    	model.addAttribute("user", user);
+	    	List<Cars> Allcars= userServ.findAllCars();
+	    	model.addAttribute("allcars", Allcars);
+	    	return "ShowCars.jsp";
+	    	
+	    }
+//--------------------------------------------------------------------------------------
 	    @GetMapping("/showorders")
 	    public String Showorders(Model model,HttpSession session) {
 	    	
@@ -138,22 +154,34 @@ public class Controllers {
 //	    	List<Cars> Allcars= userServ.findAllCars();
 //	    	model.addAttribute("allcars", Allcars);
 	    	return "Showorders.jsp";
-	    	
+//-------------------------------------------------------------------------------------------   	
 	    }
 	    @GetMapping("/addpart")
-	    public String addparts(Model model,HttpSession session) {
+	    
+	    public String Addpart(@ModelAttribute("addpart") Parts part  ,Model model,HttpSession session) {
 	    	
 	    	User user = userServ.findUser((Long) session.getAttribute("user_id"));
 	    	
 	    	model.addAttribute("user", user);
-//	    	List<Cars> Allcars= userServ.findAllCars();
-//	    	model.addAttribute("allcars", Allcars);
+	    	
 	    	return "addparts.jsp";
 	    	
 	    }
+	    @PostMapping("/newpart")
+	    public String createpart(@Valid @ModelAttribute("addpart") Parts part ,BindingResult result ,Model model,HttpSession session) {
+	        if (result.hasErrors()) {
+	            return "addparts.jsp";
+	        } else {
+	        	
+	         	userServ.createpart(part);
+//	    		User user = userServ.findUser((Long)session.getAttribute("user_id"));
+//	         	user.getTeams().add(car);
+//	    		userServ.createTeam(car);
+	            return "redirect:/home";
+	        }
+	    }
 	    
-	    
-	    
+//-----------------------------------------------------------------------------------------------------	    
 	    
 	    
 //	    @PostMapping("/newteam")

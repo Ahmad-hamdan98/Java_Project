@@ -10,9 +10,13 @@ import org.springframework.validation.BindingResult;
 
 import com.java.project.Models.Cars;
 import com.java.project.Models.Login;
+import com.java.project.Models.Parts;
 import com.java.project.Models.User;
 import com.java.project.Repositories.carRepo;
+import com.java.project.Repositories.partRepo;
 import com.java.project.Repositories.userRepo;
+
+
 
 
 
@@ -25,8 +29,8 @@ public class Serveses {
     private userRepo userRepo;
     @Autowired
     private carRepo carRepo;
-//    @Autowired
-//    TaskRepo taskRepo;
+    @Autowired
+    private partRepo partRepo;
     
     
     // TO-DO: Write register and login methods!
@@ -88,6 +92,9 @@ public class Serveses {
     public Cars createcar(Cars team) {
 		return carRepo.save(team);
 	}
+    public Parts createpart(Parts team) {
+    	return partRepo.save(team);
+    }
 //    public Team findTeam(Long id) {
 //		Optional<Team> book = teamRepo.findById(id);
 //		if(book.isPresent()) {

@@ -73,23 +73,20 @@ public class User {
  	@Column(updatable=false)
  	@OneToMany(mappedBy="user", fetch = FetchType.LAZY)
  	private List<orders> orders;
-// 	
+ 	@Column(updatable=false)
  	
-//    
-//	public List<Team> getTeamss() {
-//		return teamss;
-//	}
-//	public void setTeamss(List<Team> teamss) {
-//		this.teamss = teamss;
-//	}
-//	public List<Team> getTeams() {
-//		return Teams;
-//	}
-//	public void setTeams(List<Team> teams) {
-//		Teams = teams;
-//	}
+ 	@OneToMany(mappedBy="user", fetch = FetchType.LAZY)
+ 	private List<Parts> parts;
+//--------------------------------------------------------------------------- 	
+
 	public Long getId() {
 		return id;
+	}
+	public List<Parts> getParts() {
+		return parts;
+	}
+	public void setParts(List<Parts> parts) {
+		this.parts = parts;
 	}
 	public void setId(Long id) {
 		this.id = id;
@@ -136,12 +133,26 @@ public class User {
 	public void setCars(List<Cars> cars) {
 		this.cars = cars;
 	}
-	public List<orders> getOrder() {
+	public List<orders> getOrders() {
 		return orders;
 	}
-	public void setOrder(List<orders> order) {
-		this.orders = order;
+	public void setOrders(List<orders> orders) {
+		this.orders = orders;
 	}
+ 	
+//    
+//	public List<Team> getTeamss() {
+//		return teamss;
+//	}
+//	public void setTeamss(List<Team> teamss) {
+//		this.teamss = teamss;
+//	}
+//	public List<Team> getTeams() {
+//		return Teams;
+//	}
+//	public void setTeams(List<Team> teams) {
+//		Teams = teams;
+//	}
 
     
     
