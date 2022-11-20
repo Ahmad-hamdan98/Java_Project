@@ -1,0 +1,32 @@
+package com.java.project.Models;
+
+import java.util.Date;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.constraints.Future;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+@Entity
+@Table(name="order")
+public class orders {
+	 @Id
+	    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	    private Long id;
+	 
+	   @Future
+	    @DateTimeFormat(pattern="yyyy-MM-dd")
+		private Date dueDate;
+	   
+	    @NotEmpty(message="Note is required!")
+	    @Size(min=3, max=100, message="Note must be between 3 and 100 characters")
+	    private String note;
+	    
+	    
+}
