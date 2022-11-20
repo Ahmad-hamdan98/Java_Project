@@ -129,9 +129,28 @@ public class Controllers {
 	            return "redirect:/home";
 	        }
 	    }
-	    
-	    
-	    
+	    @GetMapping("/showorders")
+	    public String Showorders(Model model,HttpSession session) {
+	    	
+	    	User user = userServ.findUser((Long) session.getAttribute("user_id"));
+	    	
+	    	model.addAttribute("user", user);
+//	    	List<Cars> Allcars= userServ.findAllCars();
+//	    	model.addAttribute("allcars", Allcars);
+	    	return "Showorders.jsp";
+	    	
+	    }
+	    @GetMapping("/addpart")
+	    public String addparts(Model model,HttpSession session) {
+	    	
+	    	User user = userServ.findUser((Long) session.getAttribute("user_id"));
+	    	
+	    	model.addAttribute("user", user);
+//	    	List<Cars> Allcars= userServ.findAllCars();
+//	    	model.addAttribute("allcars", Allcars);
+	    	return "addparts.jsp";
+	    	
+	    }
 	    
 	    
 	    

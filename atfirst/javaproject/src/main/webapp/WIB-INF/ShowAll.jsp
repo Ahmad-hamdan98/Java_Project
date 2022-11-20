@@ -25,7 +25,7 @@
 <nav class="navbar navbar-inverse">  
   <div class="container-fluid">  
     <div class="navbar-header">  
-      <a class="navbar-brand" href="#">WebSiteName</a>  
+      <a class="navbar-brand" href="#">Online Carage</a>  
     </div>  
     <ul class="nav navbar-nav">  
       <li class="active"><a href="#">Home</a></li>  
@@ -54,10 +54,24 @@
     </ul>  
   </div>  
 </nav>  
-    
-<div class="container">  
-  <%-- <h1>Welcome ${user.userName}</h1>  --%>
-  
+   
+   
+   
+   
+   
+   
+<div class="container"> 
+    <c:choose>
+    	<c:when test="${user.id!=Null}"> 
+	<h1>Welcome ${user.userName}</h1>  
+  </c:when>
+  </c:choose> 
+      <c:choose>
+    	<c:when test="${user.email eq('car@admin.com')}"> 
+    	<p> <a href="/showorders" class="btn btn-secondary">Show Orders</a>
+  		<a href="/addpart" class="btn btn-secondary">Add New Parts</a></p>
+   </c:when>
+  </c:choose> 
   <a href="/newcar" class="btn btn-secondary">Add New Car</a>
   <a href="/showcar" class="btn btn-secondary">Show My Cars</a>
   
