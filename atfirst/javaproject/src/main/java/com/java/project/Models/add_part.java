@@ -7,7 +7,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
@@ -23,11 +24,13 @@ public class add_part {
 	    @Min(1)
 	    private int orderamount;
 	 
-	 @OneToMany(mappedBy="user_id", fetch = FetchType.LAZY)
-	    private List<User> userorder; 
+	 @ManyToOne( fetch = FetchType.LAZY)
+	 @JoinColumn(name="user_id")
+	    private User userorder; 
 	 
-	 @OneToMany(mappedBy="part_id", fetch = FetchType.LAZY)
-	 private List<Parts> partorder;
+	 @ManyToOne( fetch = FetchType.LAZY)
+	 @JoinColumn(name="part_id")
+	 private Parts partorder;
 	 //---------------------------------------------------------------
 	public Long getId() {
 		return id;
@@ -41,18 +44,18 @@ public class add_part {
 	public void setOrderamount(int orderamount) {
 		this.orderamount = orderamount;
 	}
-	public List<User> getUserorder() {
+	public User getUserorder() {
 		return userorder;
 	}
-	public void setUserorder(List<User> userorder) {
+	public void setUserorder(User userorder) {
 		this.userorder = userorder;
 	}
-	public List<Parts> getPartorder() {
+	public Parts getPartorder() {
 		return partorder;
 	}
-	public void setPartorder(List<Parts> partorder) {
+	public void setPartorder(Parts partorder) {
 		this.partorder = partorder;
 	}
-	 
+
 	 
 }
