@@ -16,6 +16,7 @@
 </head>
 <body>
 <h1>Welcome ${user.userName}!</h1>
+<h2>TEST TEST TEST</h2>
 	<form:form action="/addcar" method="post" modelAttribute="addcar">
 			<form:input type="hidden" path="user" value="${user.id}"/>
 								
