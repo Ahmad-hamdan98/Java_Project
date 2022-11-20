@@ -72,7 +72,7 @@ public class User {
 // 	
  	@ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-            name = "add_parts", 
+            name = "add_part", 
             joinColumns = @JoinColumn(name = "user_id"), 
             inverseJoinColumns = @JoinColumn(name = "part_id")
         )
