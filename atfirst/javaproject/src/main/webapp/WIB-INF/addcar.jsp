@@ -15,7 +15,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-<h1>Welcome ${user.userName}</h1>
+<h1>Welcome ${user.userName}!</h1>
 	<form:form action="/addcar" method="post" modelAttribute="addcar">
 			<form:input type="hidden" path="user" value="${user.id}"/>
 								
