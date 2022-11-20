@@ -6,18 +6,11 @@ package com.java.project.Repositories;
 
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import com.java.project.Models.Parts;
-import com.java.project.Models.User;
-
-
-
-
-
 
 
 @Repository

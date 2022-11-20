@@ -25,8 +25,8 @@ public class add_part {
 	    private int orderamount;
 	 
 	 @ManyToOne( fetch = FetchType.LAZY)
-	 @JoinColumn(name="user_id")
-	    private User userorder; 
+	 @JoinColumn(name="order_id")
+	    private orders order; 
 	 
 	 @ManyToOne( fetch = FetchType.LAZY)
 	 @JoinColumn(name="part_id")
@@ -44,15 +44,17 @@ public class add_part {
 	public void setOrderamount(int orderamount) {
 		this.orderamount = orderamount;
 	}
-	public User getUserorder() {
-		return userorder;
+
+	public orders getOrder() {
+		return order;
 	}
-	public void setUserorder(User userorder) {
-		this.userorder = userorder;
+	public void setOrder(orders order) {
+		this.order = order;
 	}
 	public Parts getPartorder() {
 		return partorder;
 	}
+	
 	public void setPartorder(Parts partorder) {
 		this.partorder = partorder;
 	}
