@@ -234,21 +234,6 @@ public class Controllers {
 	    
 	    
 //------------------------------------------------------------------------------------------------Cars	    
-	      @GetMapping("/editcar/{id}")
-	        public String index2(@PathVariable("id") Long id, Model model) {
-	            model.addAttribute("car", userService.findCarById(id));
-	            return "EditCar.jsp";
-	        }
-	       // edit car
-	       @PutMapping("/editcar/{id}")
-	       public String editcar(@Valid @ModelAttribute("car") Cars car,BindingResult result, HttpSession session) {
-	           if (result.hasErrors()) {
-	                return "EditCar.jsp";
-	            } else {
-	                userService.updatecar(car);
-	                return "redirect:/home";
-	            }
-	       }
 	    @GetMapping("/addcar")
 	    public String addcar(@ModelAttribute("car") Cars car,Principal principal,Model model) {
 	    	String email = principal.getName();
@@ -304,7 +289,7 @@ public class Controllers {
 	    	String email = principal.getName();
 	    	User user = userService.findByEmail(email);	    	
 	    	model.addAttribute("user", user);
-	    	
+	    	user.getCars().add
 	    	
 	    	return "ShowAll.jsp";
 	    }

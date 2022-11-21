@@ -179,9 +179,6 @@ public class Serveses {
 //    	return userRepo.findAll();
 //    }
 //    
-    public void updatecar(Cars car) {
-        carRepo.save(car);
-    }
 	public List<Parts> allpart() {
 		
 		return partRepo.findAll();
