@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
@@ -12,6 +13,7 @@ import com.java.project.Models.Cars;
 import com.java.project.Models.Login;
 import com.java.project.Models.Parts;
 import com.java.project.Models.User;
+import com.java.project.Repositories.RoleRepository;
 import com.java.project.Repositories.carRepo;
 import com.java.project.Repositories.partRepo;
 import com.java.project.Repositories.userRepo;
@@ -33,44 +35,59 @@ public class Serveses {
     private partRepo partRepo;
     
     
-    // TO-DO: Write register and login methods!
-    public User register(User newUser, BindingResult result) {
-    	
-    	Optional<User> opuser = userRepo.findByEmail(newUser.getEmail());
-    	if(opuser.isPresent()) {
-    		result.rejectValue("email", "Matches", "An account with that email already exists!");
-    	}
-    	if(!newUser.getPassword().equals(newUser.getConfirm())) {
-    		result.rejectValue("confirm", "Matches", "The Confirm Password must match Password!");
-
-    	}
-    	if(result.hasErrors()) {
-    		return null;
-    	}
-    	String hashed = BCrypt.hashpw(newUser.getPassword(), BCrypt.gensalt());
-    	newUser.setPassword(hashed);
-    	return userRepo.save(newUser);
-    	
-    }
-    public User login(Login newLogin, BindingResult result) {
-        if(result.hasErrors()) {
-            return null;
-        }
-        Optional<User> potentialUser = userRepo.findByEmail(newLogin.getEmail());
-        if(!potentialUser.isPresent()) {
-            result.rejectValue("email", "Unique", "Unknown email!");
-            return null;
-        }
-        User user = potentialUser.get();
-        if(!BCrypt.checkpw(newLogin.getPassword(), user.getPassword())) {
-            result.rejectValue("password", "Matches", "Invalid Password!");
-        }
-        if(result.hasErrors()) {
-            return null;
-        } else {
-            return user;
-        }
-    }
+//  private UserRepository userRepo;
+	private RoleRepository roleRepo;
+	private BCryptPasswordEncoder bCryptPwEncoder;
+	
+	
+    public Serveses(com.java.project.Repositories.userRepo userRepo, com.java.project.Repositories.carRepo carRepo,
+			com.java.project.Repositories.partRepo partRepo, RoleRepository roleRepo,
+			BCryptPasswordEncoder bCryptPwEncoder) {
+		super();
+		this.userRepo = userRepo;
+		this.carRepo = carRepo;
+		this.partRepo = partRepo;
+		this.roleRepo = roleRepo;
+		this.bCryptPwEncoder = bCryptPwEncoder;
+	}
+	// TO-DO: Write register and login methods!
+//    public User register(User newUser, BindingResult result) {
+//    	
+//    	Optional<User> opuser = userRepo.findByEmail(newUser.getEmail());
+//    	if(opuser.isPresent()) {
+//    		result.rejectValue("email", "Matches", "An account with that email already exists!");
+////    	}
+//    	if(!newUser.getPassword().equals(newUser.getConfirm())) {
+//    		result.rejectValue("confirm", "Matches", "The Confirm Password must match Password!");
+//
+//    	}
+//    	if(result.hasErrors()) {
+//    		return null;
+//    	}
+//    	String hashed = BCrypt.hashpw(newUser.getPassword(), BCrypt.gensalt());
+//    	newUser.setPassword(hashed);
+//    	return userRepo.save(newUser);
+//    	
+//    }
+//    public User login(Login newLogin, BindingResult result) {
+//        if(result.hasErrors()) {
+//            return null;
+//        }
+//        Optional<User> potentialUser = userRepo.findByEmail(newLogin.getEmail());
+//        if(!potentialUser.isPresent()) {
+//            result.rejectValue("email", "Unique", "Unknown email!");
+//            return null;
+//        }
+//        User user = potentialUser.get();
+//        if(!BCrypt.checkpw(newLogin.getPassword(), user.getPassword())) {
+//            result.rejectValue("password", "Matches", "Invalid Password!");
+//        }
+//        if(result.hasErrors()) {
+//            return null;
+//        } else {
+//            return user;
+//        }
+//    }
     public User findUser(Long id) {
 		Optional<User> user = userRepo.findById(id);
 		if(user.isPresent()) {
@@ -95,6 +112,45 @@ public class Serveses {
     public Parts createpart(Parts team) {
     	return partRepo.save(team);
     }
+    
+    //--------------------------------------------------------------------------------------------
+
+	
+	public void newUser(User user, String role) {
+		user.setPassword(bCryptPwEncoder.encode(user.getPassword()));
+		user.setRoles(roleRepo.findByName(role));
+		userRepo.save(user);
+	}
+	
+	public void updateUser(User user) {
+		userRepo.save(user);
+	}
+	
+	public User findByEmail(String email) {
+		return userRepo.findByEmail(email);
+	}
+	
+	public List<User> allUsers(){
+		return userRepo.findAll();
+	}
+	
+	public User upgradeUser(User user) {
+		user.setRoles(roleRepo.findByName("ROLE_ADMIN"));
+		return userRepo.save(user);
+	}
+	
+	public void deleteUser(User user) {
+		userRepo.delete(user);
+	}
+    
+    public User findById(Long id) {
+    	Optional<User> potentialUser = userRepo.findById(id);
+    	if(potentialUser.isPresent()) {
+    		return potentialUser.get();
+    	}
+    	return null;
+    }
+    //--------------------------------------------------------------------------------------------
 //    public Team findTeam(Long id) {
 //		Optional<Team> book = teamRepo.findById(id);
 //		if(book.isPresent()) {

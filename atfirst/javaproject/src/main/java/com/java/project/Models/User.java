@@ -27,29 +27,28 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 @Table(name="users")
 public class User {
-    
-    @Id
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @NotEmpty(message="Username is required!")
-    @Size(min=3, max=30, message="Username must be between 3 and 30 characters")
-    private String userName;
+	@Size(min=3, max=30)
+    private String firstName;
     
-    @NotEmpty(message="Email is required!")
-    @Email(message="Please enter a valid email!")
+	@Size(min=3, max=30)
+    private String lastName;
+    
+	@Size(min=5)
     private String email;
     
-    @NotEmpty(message="Password is required!")
-    @Size(min=8, max=128, message="Password must be between 8 and 128 characters")
+	@Size(min=5)
     private String password;
     
     @Transient
-    @NotEmpty(message="Confirm Password is required!")
-    @Size(min=8, max=128, message="Confirm Password must be between 8 and 128 characters")
     private String confirm;
-  
     
+   
+    
+    private Date lastLogin;
     @Column(updatable=false)
     @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date createdAt;
@@ -65,6 +64,7 @@ public class User {
     protected void onUpdate(){
         this.updatedAt = new Date();
     }
+   
     //------------------------------------------------------------------
  	@Column(updatable=false)
     @OneToMany(mappedBy="user", fetch = FetchType.LAZY)
@@ -77,25 +77,33 @@ public class User {
  	
  	@OneToMany(mappedBy="user", fetch = FetchType.LAZY)
  	private List<Parts> parts;
+ 	
+    @ManyToMany(fetch=FetchType.EAGER)
+    @JoinTable(
+    		name = "user_roles",
+    		joinColumns = @JoinColumn(name = "user_id"),
+    		inverseJoinColumns = @JoinColumn(name = "role_id")
+    		)
+    private List<Role> roles;
 //--------------------------------------------------------------------------- 	
 
 	public Long getId() {
 		return id;
 	}
-	public List<Parts> getParts() {
-		return parts;
-	}
-	public void setParts(List<Parts> parts) {
-		this.parts = parts;
-	}
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public String getUserName() {
-		return userName;
+	public String getFirstName() {
+		return firstName;
 	}
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+	public String getLastName() {
+		return lastName;
+	}
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 	public String getEmail() {
 		return email;
@@ -121,6 +129,13 @@ public class User {
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
 	}
+	public Date getLastLogin() {
+		return lastLogin;
+	}
+	public void setLastLogin(Date lastLogin) {
+		this.lastLogin = lastLogin;
+	}
+
 	public Date getUpdatedAt() {
 		return updatedAt;
 	}
@@ -139,20 +154,19 @@ public class User {
 	public void setOrders(List<orders> orders) {
 		this.orders = orders;
 	}
- 	
-//    
-//	public List<Team> getTeamss() {
-//		return teamss;
-//	}
-//	public void setTeamss(List<Team> teamss) {
-//		this.teamss = teamss;
-//	}
-//	public List<Team> getTeams() {
-//		return Teams;
-//	}
-//	public void setTeams(List<Team> teams) {
-//		Teams = teams;
-//	}
+	public List<Parts> getParts() {
+		return parts;
+	}
+	public void setParts(List<Parts> parts) {
+		this.parts = parts;
+	}
+	public List<Role> getRoles() {
+		return roles;
+	}
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
+	}
+
 
     
     

@@ -19,9 +19,9 @@ public interface userRepo extends CrudRepository<User, Long>{
 
 	 // this method retrieves all the books from the database
 	 List<User> findAll();
-	 Optional<User> findByEmail(String email);
+//	 Optional<User> findByEmail(String email);
 	 
-	 
+	 User findByEmail(String email);
 	 
 //	 Optional<User> findByEmail(String email);
 //	Object findByEmail(String email);

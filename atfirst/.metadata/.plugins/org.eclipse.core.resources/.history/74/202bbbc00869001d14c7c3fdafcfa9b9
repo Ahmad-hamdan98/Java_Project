@@ -1,0 +1,5 @@
+package com.java.project.validator;
+
+public class UserValidator {
+
+}

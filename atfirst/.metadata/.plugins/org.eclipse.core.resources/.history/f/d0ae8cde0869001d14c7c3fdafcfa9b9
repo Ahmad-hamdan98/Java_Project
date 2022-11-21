@@ -1,0 +1,119 @@
+package com.java.project.Serveses;
+
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.stereotype.Service;
+
+import com.codingdojo.admindashboard.repositories.UserRepository;
+import com.java.project.Models.Role;
+import com.java.project.Models.User;
+import com.java.project.Repositories.RoleRepository;
+import com.java.project.Repositories.userRepo;
+
+@Service
+public class UserDetailsServiceImplementation implements UserDetailsService {
+	
+	private userRepo userRepo;
+	
+	
+	
+	private RoleRepository roleRepo;
+	private BCryptPasswordEncoder bCryptPwEncoder;
+	
+	public UserService(UserRepository userRepo, RoleRepository roleRepo, BCryptPasswordEncoder bCryptPwEncoder) {
+		this.userRepo = userRepo;
+		this.roleRepo = roleRepo;
+		this.bCryptPwEncoder = bCryptPwEncoder;
+	}
+	
+	public void newUser(User user, String role) {
+		user.setPassword(bCryptPwEncoder.encode(user.getPassword()));
+		user.setRoles(roleRepo.findByName(role));
+		userRepo.save(user);
+	}
+	
+	public void updateUser(User user) {
+		userRepo.save(user);
+	}
+	
+	public User findByEmail(String email) {
+		return userRepo.findByEmail(email);
+	}
+	
+	public List<User> allUsers(){
+		return userRepo.findAll();
+	}
+	
+	public User upgradeUser(User user) {
+		user.setRoles(roleRepo.findByName("ROLE_ADMIN"));
+		return userRepo.save(user);
+	}
+	
+	public void deleteUser(User user) {
+		userRepo.delete(user);
+	}
+    
+    public User findById(Long id) {
+    	Optional<User> potentialUser = userRepo.findById(id);
+    	if(potentialUser.isPresent()) {
+    		return potentialUser.get();
+    	}
+    	return null;
+    }
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	//--------------------------------------------------------------------------------
+	public UserDetailsServiceImplementation(UserRepository userRepo) {
+		this.userRepo = userRepo;
+	}
+	
+	// loadUserByUsername is a misleading name here because we are using email for login credentials
+	@Override
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+		User user = userRepo.findByEmail(email);
+		
+		if(user==null) {
+			throw new UsernameNotFoundException("User not found");
+		}
+		
+		return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), getAuthorities(user));
+	}
+	
+	private List<GrantedAuthority> getAuthorities(User user){
+		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+		for(Role role:user.getRoles()) {
+			GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(role.getName());
+			authorities.add(grantedAuthority);
+		}
+		return authorities;
+	}
+
+}

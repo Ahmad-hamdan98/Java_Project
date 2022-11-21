@@ -1,0 +1,5 @@
+package confog;
+
+public class WebSecurityConfig {
+
+}

@@ -14,6 +14,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-<h1>Welcome Page</h1>
+<h1>Welcome ${user.firstName} ${user.lastName} </h1>
+
 </body>
 </html>

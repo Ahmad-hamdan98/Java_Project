@@ -55,11 +55,6 @@
   </div>  
 </nav>  
    
-   
-   
-   
-   
-   
 <div class="container"> 
     <c:choose>
     	<c:when test="${user.id!=Null}"> 
