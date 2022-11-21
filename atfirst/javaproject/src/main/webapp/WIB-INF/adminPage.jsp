@@ -25,25 +25,7 @@
     	</tr>
     </thead>
     <tbody>
-    	<c:forEach var="user" items="${users}">
-    	<c:if test = "${!user.roles.get(0).name.contains('ROLE_SUPER_ADMIN')}">
-	        <tr>
-				<td>${user.firstName} ${user.lastName}</td>
-				<td>${user.email}</td>
-				<c:if test = "${currentUser.roles.get(0).name.contains('ROLE_SUPER_ADMIN')}">
-			        <td><a href="/delete/${user.id}">Delete</a> <a href="/admin/${user.id}">Make Admin</a></td>
-			    </c:if>
-			    <c:if test = "${currentUser.roles.get(0).name.contains('ROLE_ADMIN')}">        
-			        <c:if test = "${user.roles.get(0).name.contains('ROLE_USER')}">
-			        	<td><a href="/delete/${user.id}">Delete</a> <a href="/admin/${user.id}">Make Admin</a></td>
-			    	</c:if>
-			    	<c:if test = "${user.roles.get(0).name.contains('ROLE_ADMIN')}">
-			        	<td>Admin</td>
-			    	</c:if>
-			    </c:if>
-			</tr>
-	    </c:if>	
-	</c:forEach>
+    
     </tbody>
 </table>
 
