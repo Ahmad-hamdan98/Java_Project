@@ -3,20 +3,20 @@ package com.java.project.Serveses;
 import java.util.List;
 import java.util.Optional;
 
-import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.BindingResult;
 
 import com.java.project.Models.Cars;
-import com.java.project.Models.Login;
 import com.java.project.Models.Parts;
 import com.java.project.Models.User;
+import com.java.project.Models.orders;
 import com.java.project.Repositories.RoleRepository;
 import com.java.project.Repositories.carRepo;
+import com.java.project.Repositories.orderRepo;
 import com.java.project.Repositories.partRepo;
 import com.java.project.Repositories.userRepo;
+
 
 
 
@@ -33,6 +33,8 @@ public class Serveses {
     private carRepo carRepo;
     @Autowired
     private partRepo partRepo;
+    @Autowired
+    private orderRepo orderRepo;
     
     
 //  private UserRepository userRepo;
@@ -112,7 +114,12 @@ public class Serveses {
     public Parts createpart(Parts part) {
     	return partRepo.save(part);
     }
-    
+    public void deletePart(Long id) {
+	  	   Optional<Parts> ex = partRepo.findById(id);
+	         if(ex.isPresent()) {
+	        	 partRepo.deleteById(id);
+	         }
+	  }
     //--------------------------------------------------------------------------------------------
 
 	
@@ -165,6 +172,9 @@ public class Serveses {
     public List<Cars> findAllCars(){
 		return carRepo.findAll();
 	}
+    public List<orders> findAllOrders(){
+    	return carRepo.findAll();
+    }
 //    public List<User> findAllUser(){
 //    	return userRepo.findAll();
 //    }

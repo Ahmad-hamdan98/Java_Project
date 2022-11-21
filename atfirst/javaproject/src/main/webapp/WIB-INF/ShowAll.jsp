@@ -84,9 +84,8 @@
         <tr>
             <th>Part Name</th>
             <th>Part Price(1-5)</th>
-          
             <th>Part Amount</th>
-            <th>Number of people</th>
+           
         </tr>
         </thead>
         
@@ -109,6 +108,9 @@
     </tbody>
 </table>
 
-
+<form id="logoutForm" method="POST" action="/logout">
+<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+<input type="submit" value="Logout!" />
+</form>
 </body>  
 </html> 

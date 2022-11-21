@@ -12,32 +12,57 @@
 <head>
 <link rel="stylesheet" type="text/css" href="/css/style.css">
 <title>Admin Dashboard</title>
+<style >
+.container{display: flex;justify-content:space-between ;}
+#logoutForm{margin-top: 50%}
+#a{margin-top: 4%}
+body {
+    background-image: url("images/img3.jpg");
+}
+</style>
+<meta name="viewport" content="width=device-width, initial-scale=1">  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"> 
 </head>
 <body>
-
-<h1>Welcome, ${currentUser.firstName}</h1>
-<form id="logoutForm" method="POST" action="/logout">
+<nav class="navbar navbar-inverse">  
+  <div class="container-fluid">  
+    <div class="navbar-header">  
+      <a class="navbar-brand" href="#">Online Garage</a>  
+    </div>  
+    <ul class="nav navbar-nav">  
+      <li class="active"><a href="/home">Home</a></li>  
+      <li ><a href="/profiles">profiles</a></li>  
+      
+      
+      <li><a href="/about">About us</a></li>  
+      
+    </ul>  
+    <ul class="nav navbar-nav navbar-right">
+   
+    	<!-- <li><a href="/logout"><span class="glyphicon glyphicon-user"></span>Logout</a></li> -->
+    	
+    	 <form id="logoutForm" method="POST" action="/logout" >
     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-    <input type="submit" value="Logout!" />
+    <input type="submit" value="Logout!" <span class="glyphicon glyphicon-user"></span>/>
 </form>
+     <!--  <li><a href="/login"><span class="glyphicon glyphicon-user"></span>Sign Up</a></li>  
+      <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>  --> 
+  
+    </ul>  
+  </div>  
+</nav>  
+   
+<div class="container">
+<div>
+<h1>Welcome, ${currentUser.firstName}</h1></div><div>
 
-<table>
-    <thead> 
-    	<tr>
-    		<th>Name</th>
-    		<th>Email</th>
-    		<th>Action</th>
-    	</tr>
-    </thead>
-    <tbody>
-    
-    </tbody>
-</table>
+</div>
+</div>
 <h2>Add Parts</h2>
-
+<div class="container">
+<div class="flex">
 <form:form action="/newpart" method="post" modelAttribute="addpart">
 			<form:input type="hidden" path="user" value="${user.id}"/>					
-		
 		<table>
 			<tr>
 				<td>
@@ -68,19 +93,51 @@
 				</td>
 			</tr>
 			<tr>
-			                    			
-                                 <br>
+            			
+                              
                                 </tr>
                                 
 				<td> <br>
 					<input type="submit"  class="btn btn-primary" value="Add part">
 				</td>
-		
-
-		
-       		
 		</table>
 
 </form:form>
+</div>
+<div class="flex">
+<table class="table table-striped">
+    <thead>
+     
+        <tr>
+            <th>Part Name</th>
+            <th>Part Price</th>
+            <th>Part Amount</th>
+            <th>Delete Part </th>
+           
+        </tr>
+        </thead>
+        
+      
+      <tbody>
+   
+       <c:forEach var="part" items="${allparts}">
+<tr>
+
+<td>${part.partName}<td>
+<td>${part.price}<td>
+<td>${part.amount}<td>
+
+
+ <form action="/delete/${part.id}" method="post">
+   			 <input type="hidden" name="_method" value="delete">
+    		<input type="submit" value="Delete" >
+</tr>
+
+<hr>
+</c:forEach>
+    </tbody>
+</table>
+</div>
+</div>
 </body>
 </html>

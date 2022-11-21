@@ -12,6 +12,7 @@ import javax.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.java.project.Models.Cars;
 import com.java.project.Models.Parts;
 import com.java.project.Models.User;
+import com.java.project.Models.orders;
 import com.java.project.Serveses.Serveses;
 import com.java.project.validator.UserValidator;
 
@@ -74,10 +76,12 @@ public class Controllers {
 	}
 	
 	@RequestMapping("/admin")
-	public String adminPage(@Valid @ModelAttribute("addpart") Parts part ,BindingResult result ,Principal principal, Model model) {
+	public String adminPage(@ModelAttribute("addpart") Parts part ,BindingResult result ,Principal principal, Model model) {
 		String email = principal.getName();
 		model.addAttribute("currentUser", userService.findByEmail(email));
 		model.addAttribute("users", userService.allUsers());
+		List<Parts> allparts=userService.allpart();
+		model.addAttribute("allparts", allparts);
 		return "adminPage.jsp";
 	}
 	
@@ -229,7 +233,7 @@ public class Controllers {
 	    }
 	    
 	    
-//------------------------------------------------------------------------------------------------	    
+//------------------------------------------------------------------------------------------------Cars	    
 	    @GetMapping("/addcar")
 	    public String addcar(@ModelAttribute("car") Cars car,Principal principal,Model model) {
 	    	String email = principal.getName();
@@ -251,6 +255,7 @@ public class Controllers {
 	            return "redirect:/home";
 	        }
 	    }
+	    
 	    @GetMapping("/showcar")
 	    public String ShowCar(Principal principal,Model model,HttpSession session) {
 	    	
@@ -262,29 +267,22 @@ public class Controllers {
 	    	return "ShowCars.jsp";
 	    	
 	    }
-//--------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------Orders
 	    @GetMapping("/showorders")
 	    public String Showorders(Principal principal,Model model,HttpSession session) {
 	    	
 	    	String email = principal.getName();
 			User user = userService.findByEmail(email);	    	
 	    	model.addAttribute("user", user);
-//	    	List<Cars> Allcars= userServ.findAllCars();
-//	    	model.addAttribute("allcars", Allcars);
+	    	List<Cars> Allcars= userService.findAllCars();
+	    	model.addAttribute("allcars", Allcars);
+	    	List<orders> allorder=userService.findAllOrders();
+	    	model.addAttribute("allorder", allorder);
+	    	
 	    	return "Showorders.jsp";
-//-------------------------------------------------------------------------------------------   	
 	    }
-	    @GetMapping("/addpart")
-	    
-	    public String Addpart(@ModelAttribute("addpart") Parts part  ,Model model,HttpSession session) {
-	    	
-	    	User user = userService.findUser((Long) session.getAttribute("user_id"));
-	    	
-	    	model.addAttribute("user", user);
-	    	
-	    	return "addparts.jsp";
-	    	
-	    }
+//-------------------------------------------------------------------------------------------Part   	
+	  
 	    @PostMapping("/newpart")
 	    public String createpart(@Valid @ModelAttribute("addpart") Parts part ,BindingResult result ,Model model,HttpSession session) {
 	        if (result.hasErrors()) {
@@ -298,45 +296,13 @@ public class Controllers {
 	            return "redirect:/home";
 	        }
 	    }
-	    
-//-----------------------------------------------------------------------------------------------------	    
-	    
-	    
-//	    @PostMapping("/newteam")
-//	    public String createProject(@Valid @ModelAttribute("team") Team team ,BindingResult result ,Model model,HttpSession session) {
-//	        if (result.hasErrors()) {
-//	            return "create.jsp";
-//	        } else {
-//
-//	         	userServ.createTeam(team);
-//	    		User user = userServ.findUser((Long)session.getAttribute("user_id"));
-//	         	user.getTeams().add(team);
-//	    		userServ.createTeam(team);
-//	            return "redirect:/dashboard";
-//	        }
-//	    }
-//	    @RequestMapping("/create")
-//	    public String addProject(HttpSession session,@ModelAttribute("team") Team team,Model model) {
-//	    	model.addAttribute("newLogin", new Team());
-//	    	model.addAttribute("user",userServ.findUser((Long) session.getAttribute("user_id")));
-//	    	return "create.jsp";
-//	    	
-//	    }
-//
-//	     @GetMapping("/showteam/{id}")
-//	   	 public String showP(@PathVariable("id")Long id,Model model,HttpSession session) {
-//	    	 User user=userServ.findUser((Long) session.getAttribute("user_id"));
-//	    	 model.addAttribute("user",user);
-//	   		 Team team= userServ.findTeam(id);
-//	          List<User> users = userServ.findAllUser();
-////	          team.getPlayers()
-//	   		model.addAttribute("AllPlayers", users);
-//	          
-//	   		 model.addAttribute("team", team);
-//	   		 return "Showteam.jsp";
-//	   	 }
-//	     
-//	     
+	    @DeleteMapping("/delete/{id}")
+	      public String delete(@PathVariable("id")Long id) {
+
+	    	userService.deletePart(id);
+	    	  return "redirect:/admin";
+	      }
+//-----------------------------------------------------------------------------------------------------	the end    
 //	     @GetMapping("edit/{id}")
 //	  	 public String edit(@PathVariable("id")Long id,Model model) {
 //	  		 Team project = userServ.findTeam(id);
@@ -357,42 +323,9 @@ public class Controllers {
 //	  			   return "redirect:/dashboard";
 //	  		   }
 //	  	 }
-//	      @DeleteMapping("/delete/{id}")
-//	      public String delete(@PathVariable("id")Long id) {
-////	    	  Team project = userServ.findTeam(id);
-//	    	  userServ.deleteTeam(id);
-//	    	  return "redirect:/dashboard";
-//	      }
-//	      @PostMapping("/AddPlayer/{id}")
-//	        public String AddPlayer(@Valid @ModelAttribute("player") User player, BindingResult result ,Model model ,@PathVariable("id") Long id, @RequestParam(name = "SelectPlayer") Long PlayerID) {
-//	            Team thisTeam = userServ.findTeam(id);
-////	            User playerr = userServ.findUser(PlayerID);
-//	            
-////	            List<User> users = userServ.findAllUser();
-////	            model.addAttribute("AllPlayers", users);
-////	            thisTeam.getUsers().add(Player);
-//	            thisTeam.getPlayers().add(player);
-//	            
-//	            userServ.createTeam(thisTeam);
-//	            userServ.updateUser1(player);
-//	            return "redirect:/home";
-//	        }
-	     
+
+
 	      
-	      
-//	      
-//	      @PostMapping("/AddPlayer/{id}")
-//	        public String AddPlayer(@Valid @ModelAttribute("player") User player, BindingResult result ,Model model ,@PathVariable("id") Long id, @RequestParam(name = "SelectPlayer") Long PlayerID) {
-//	            Team thisTeam = userServ.findTeam(id);
-//	            User newPlayer = userServ.findUser(PlayerID);
-//	            thisTeam.getPlayers().add(newPlayer);
-//	            
-//	            userServ.updateTeam(thisTeam);
-//	            userServ.updateUser1(newPlayer);
-//	            return "redirect:/showteam/{id}";
-//	        }
-//	      
-//	      
 	     
 	   
 	     
