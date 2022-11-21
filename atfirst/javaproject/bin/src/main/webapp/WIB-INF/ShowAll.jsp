@@ -55,11 +55,6 @@
   </div>  
 </nav>  
    
-   
-   
-   
-   
-   
 <div class="container"> 
     <c:choose>
     	<c:when test="${user.id!=Null}"> 
@@ -67,6 +62,7 @@
   <a href="/newcar" class="btn btn-secondary">Add New Car</a>
   <a href="/showcar" class="btn btn-secondary">Show My Cars</a>
   </c:when>
+  	
   </c:choose> 
       <c:choose>
     	<c:when test="${user.email eq('car@admin.com')}"> 
@@ -74,11 +70,6 @@
   		<a href="/addpart" class="btn btn-secondary">Add New Parts</a></p>
    </c:when>
   </c:choose> 
-  
-  
-  
-
-  
   
 </div>  
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>  
