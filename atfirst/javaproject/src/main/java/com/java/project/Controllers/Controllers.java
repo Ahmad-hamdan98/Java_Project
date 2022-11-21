@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -29,7 +30,6 @@ import com.java.project.validator.UserValidator;
 public class Controllers {
 	private Serveses userService;
 	private UserValidator userValidator;
-	
 	
 	
 	public Controllers(Serveses userService, UserValidator userValidator) {
@@ -145,7 +145,14 @@ public class Controllers {
 	}
 	
 //----------------------------------------------------------------------------------	
-
+	@GetMapping("/2")
+	public String gg(@ModelAttribute("car") Cars car) {
+		return "addcarpage.jsp";
+	}
+	@GetMapping("/3")
+	public String gggh() {
+		return "about.jsp";
+	}
 //-------------------------------------------------------------------------------------------	    
 	    @GetMapping("/")
 	    public String home(Model model,HttpSession session ,Principal principal) {

@@ -1,12 +1,8 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> 
-<!-- c:out ; c:forEach etc. --> 
-  <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
- <!-- Formatting (dates) --> 
-<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%> 
-<!-- form:form -->
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<!-- for rendering errors on PUT routes -->
-<%@ page isErrorPage="true" %>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ page isErrorPage="true" %>  
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,33 +21,36 @@
    <div class="col-lg-6 mx-auto">
      <div class="bg-white rounded-lg shadow-lg p-4">
 	  <form role="form">
-	  <form:form action="/addcar" method="post" modelAttribute="addcar">
-	  <form:input type="hidden" path="user" value="${user.id}"/>
+	  <form:form action="/addcar" method="post" modelAttribute="car">
+	  <!-- <form:input type="hidden" path="user" value="${user.id}"/>-->
         <div class="tab-content">
           <!-- credit card info-->
           <div class="tab-pane fade show active">          
               <div class="form-group">
                 <form:label path="cartype">Type</form:label>
-                <form:input path="cartype" type="text" placeholder="Car Type" required class="form-control"/> 
+                <form:input path="cartype" placeholder="Car Type" class="form-control" /> 
                 <form:errors path="cartype" class="red"/>               
               </div>
               <br>
               
-              <div class="model">
+              <div class="form-group">
                 <form:label path="model">Model</form:label>
-                <form:input type="number" min="1990" max="2022" path="model" placeholder="Car Model" required class="form-control"/>
-              </div>
-              <br>
-              
-              <div class="carcolor">
-                <label for="carcolor">Color</label>
-                <input type="text" name="carcolor" placeholder="Car Color" required class="form-control">
+                <form:input type="number" min="1990" max="2022" path="model" class="form-control" />
+                <form:errors path="model" class="red"/>
               </div>
               <br>
               
               <div class="form-group">
-                <label for="description">Description</label>
-                <textarea class="form-control" rows="3"></textarea>
+                <form:label path="carcolor">Color</form:label>
+                <form:input type="text" path="carcolor" placeholder="Car Color" class="form-control" />
+                <form:errors path="carcolor" class="red"/>
+              </div>
+              <br>
+              
+              <div class="form-group">
+                <form:label path="description">Description</form:label>
+                <form:input type="textarea" rows="5" path="description" placeholder="Description for Car" class="form-control" />
+                <form:errors path="description" class="red"/>
               </div> 
               <br>              
            </div>

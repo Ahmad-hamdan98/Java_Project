@@ -21,9 +21,9 @@
 <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 </head>
 <body>
-<h1>Welcome ${user.userName}!</h1>
 
-	<form:form action="/addcar" method="post" modelAttribute="addcar">
+
+	<form:form action="/addcar" method="post" modelAttribute="car">
 			<form:input type="hidden" path="user" value="${user.id}"/>					
 		
 		<table>
