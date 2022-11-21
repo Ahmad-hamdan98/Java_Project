@@ -53,7 +53,7 @@ public class Controllers {
 		}
 		// Make first user SUPER ADMIN
 		if(userService.allUsers().size()==0) {
-			userService.newUser(user, "ROLE_SUPER_ADMIN");
+			userService.newUser(user, "ROLE_ADMIN");
 		}else {
 			userService.newUser(user, "ROLE_USER");
 //			session.setAttribute("user_id", newUser.getId());
@@ -98,6 +98,7 @@ public class Controllers {
 			@RequestParam(value="error", required=false) String error, 
 			@RequestParam(value="logout", required=false) String logout, 
 			Model model) {
+		
 		
 		if(error!=null) {
 			model.addAttribute("errorMessage","Invalid Credentials, Please try again.");
@@ -181,12 +182,12 @@ public class Controllers {
 //	        session.setAttribute("user_id", user.getId());
 //	        return "redirect:/home";
 //	    }
-	    @GetMapping("/logout")
-	    public String logout(HttpSession session) {
-	    	session.invalidate();
-	    	return "redirect:/welcome";
-
-	    }
+//	    @GetMapping("/logout")
+//	    public String logout(HttpSession session) {
+//	    	session.invalidate();
+//	    	return "redirect:/welcome";
+//
+//	    }
 //-------------------------------------------------------------------------------------------	    
 	    @GetMapping("/")
 	    public String home(Model model,HttpSession session) {
