@@ -16,7 +16,7 @@
 </head>
 <body>
 <h1>All Cars</h1>
-  <c:forEach var="car" items="${ allcars}" > 
+  <c:forEach var="car" items="${allcars}" > 
 <p>Car Owner ${car.user.userName}</p>
  <p>Car Type 	 ${car.cartype}</p>
   <p>Car Color	${car.carcolor}</p>

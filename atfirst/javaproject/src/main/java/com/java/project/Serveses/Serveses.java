@@ -169,6 +169,10 @@ public class Serveses {
 //    	return userRepo.findAll();
 //    }
 //    
+	public List<Parts> allpart() {
+		
+		return partRepo.findAll();
+	}
     
 	
 //	

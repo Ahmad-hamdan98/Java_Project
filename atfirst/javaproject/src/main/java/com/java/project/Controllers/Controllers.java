@@ -74,7 +74,7 @@ public class Controllers {
 	}
 	
 	@RequestMapping("/admin")
-	public String adminPage(Principal principal, Model model) {
+	public String adminPage(@Valid @ModelAttribute("addpart") Parts part ,BindingResult result ,Principal principal, Model model) {
 		String email = principal.getName();
 		model.addAttribute("currentUser", userService.findByEmail(email));
 		model.addAttribute("users", userService.allUsers());
@@ -176,13 +176,18 @@ public class Controllers {
 	    }
 	    
 	    @GetMapping("/home")
-	    public String home1(@ModelAttribute("addcar") Cars car,Model model,HttpSession session) {
+	    public String home1(@ModelAttribute("addcar") Cars car,Model model,HttpSession session,Principal principal) {
 
-	    	if(session.getAttribute("user_id")!=null){
-	    		User user = userService.findUser((Long) session.getAttribute("user_id"));
+	    	
+//	    		User user = userService.findUser((Long) session.getAttribute("user_id"));
 //	    		Cars car=userServ.findCarById(id);
-
-	    		model.addAttribute("user", user);}
+	    		String email = principal.getName();
+				User user = userService.findByEmail(email);
+				model.addAttribute("user", user);
+	    		List<Parts> allparts=userService.allpart();
+	    		model.addAttribute("allparts", allparts);
+	    		
+	    		
 	    	
 	    	return "ShowAll.jsp";
 	    }
@@ -212,10 +217,10 @@ public class Controllers {
 	        }
 	    }
 	    @GetMapping("/showcar")
-	    public String ShowCar(Model model,HttpSession session) {
+	    public String ShowCar(Principal principal,Model model,HttpSession session) {
 	    	
-	    	User user = userService.findUser((Long) session.getAttribute("user_id"));
-	    	
+	    	String email = principal.getName();
+			User user = userService.findByEmail(email);	    	
 	    	model.addAttribute("user", user);
 	    	List<Cars> Allcars= userService.findAllCars();
 	    	model.addAttribute("allcars", Allcars);
@@ -224,10 +229,10 @@ public class Controllers {
 	    }
 //--------------------------------------------------------------------------------------
 	    @GetMapping("/showorders")
-	    public String Showorders(Model model,HttpSession session) {
+	    public String Showorders(Principal principal,Model model,HttpSession session) {
 	    	
-	    	User user = userService.findUser((Long) session.getAttribute("user_id"));
-	    	
+	    	String email = principal.getName();
+			User user = userService.findByEmail(email);	    	
 	    	model.addAttribute("user", user);
 //	    	List<Cars> Allcars= userServ.findAllCars();
 //	    	model.addAttribute("allcars", Allcars);
