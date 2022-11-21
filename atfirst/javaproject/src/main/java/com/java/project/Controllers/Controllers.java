@@ -61,7 +61,7 @@ public class Controllers {
 		
 		// Log in new user with the password we stored before encrypting it
 		authWithHttpServletRequest(request, user.getEmail(), password);
-		return "redirect:/home";
+		return "redirect:/";
 	}
 	
 	// We will call this method to automatically log in newly registered users
@@ -97,7 +97,7 @@ public class Controllers {
 			@ModelAttribute("user") User user,
 			@RequestParam(value="error", required=false) String error, 
 			@RequestParam(value="logout", required=false) String logout, 
-			Model model,HttpSession session) {
+			Model model) {
 		
 		
 		if(error!=null) {
@@ -107,7 +107,6 @@ public class Controllers {
 			model.addAttribute("logoutMessage","Logout Successful!");
 		}
 		
-		session.setAttribute("user", user);
 		return "loginPage.jsp";
 	}
 	
@@ -115,9 +114,8 @@ public class Controllers {
 	public String home(Principal principal, Model model,HttpSession session) {
 		String email = principal.getName();
 		User user = userService.findByEmail(email);
-		
 		model.addAttribute("user", user);
-		
+		session.setAttribute("user", user);
 		
 		if(user!=null) {
 			user.setLastLogin(new Date());
@@ -143,20 +141,60 @@ public class Controllers {
 		 
 		return "redirect:/admin";
 	}
-	
 //----------------------------------------------------------------------------------	
-
+//	 @Autowired
+//	public final Serveses userServ;
+//
+//	 public Controllers(Serveses userServes) {
+//		
+//		this.userServ = userServes;
+//	}
+//	 @GetMapping("/login")
+//	    public String index(Model model) {
+//	        model.addAttribute("newUser", new User());
+//	        model.addAttribute("newLogin", new Login());
+//	        return "login.jsp";
+//	    }
+//	    @PostMapping("/register")
+//	    public String register(@Valid @ModelAttribute("newUser") User newUser, 
+//	            BindingResult result, Model model, HttpSession session) {
+//	    	userServ.register(newUser, result);
+//	        if(result.hasErrors()) {
+//	            // Be sure to send in the empty LoginUser before 
+//	            // re-rendering the page.
+//	            model.addAttribute("newLogin", new Login());
+//	            return "login.jsp";
+//	        }
+//	        session.setAttribute("user_id", newUser.getId());
+//	        return "redirect:/home";
+//	    }
+//
+//	    @PostMapping("/login")
+//	    public String login(@Valid @ModelAttribute("newLogin") Login newLogin, 
+//	            BindingResult result, Model model, HttpSession session) {
+//
+//	        // Add once service is implemented:
+//	         User user = userServ.login(newLogin, result);
+//	        if(result.hasErrors()) {
+//	            model.addAttribute("newUser", new User());
+//	            return "login.jsp";
+//	        }
+//	        session.setAttribute("user_id", user.getId());
+//	        return "redirect:/home";
+//	    }
+//	    @GetMapping("/logout")
+//	    public String logout(HttpSession session) {
+//	    	session.invalidate();
+//	    	return "redirect:/welcome";
+//
+//	    }
 //-------------------------------------------------------------------------------------------	    
 	    @GetMapping("/")
-	    public String home(Model model,HttpSession session ,Principal principal) {
+	    public String home(Model model,HttpSession session) {
 //	    	List<Team> projects = userServ.findAll();
 //	    	model.addAttribute("team", projects);
 //	    	if(session.getAttribute("user_id")!=null){
 //	    	User user = userService.findUser((Long) session.getAttribute("user_id"));
-	    	String email = principal.getName();
-	    	if (userService.findByEmail(email)!=null) {
-	    		return "redirect:/home";
-	    	}
 	    	
 //	    	List<Projects> projects2 = userServ.allos(user);
 //	    	model.addAttribute("projects2", projects2);
