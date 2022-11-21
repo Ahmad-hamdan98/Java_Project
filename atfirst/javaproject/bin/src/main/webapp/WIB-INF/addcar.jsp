@@ -1,4 +1,4 @@
- <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> 
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> 
 <!-- c:out ; c:forEach etc. --> 
   <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
  <!-- Formatting (dates) --> 
@@ -16,7 +16,7 @@
 </head>
 <body>
 <h1>Welcome ${user.userName}!</h1>
-<h2>TEST TEST TEST</h2>
+
 	<form:form action="/addcar" method="post" modelAttribute="addcar">
 			<form:input type="hidden" path="user" value="${user.id}"/>					
 		
