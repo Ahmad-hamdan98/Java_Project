@@ -4,11 +4,13 @@ import java.security.Principal;
 import java.util.Date;
 import java.util.List;
 
+import javax.mail.MessagingException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -24,6 +27,7 @@ import com.java.project.Models.Cars;
 import com.java.project.Models.Parts;
 import com.java.project.Models.User;
 import com.java.project.Models.orders;
+import com.java.project.Serveses.EmailSenderService;
 import com.java.project.Serveses.Serveses;
 import com.java.project.validator.UserValidator;
 
@@ -31,7 +35,8 @@ import com.java.project.validator.UserValidator;
 public class Controllers {
 	private Serveses userService;
 	private UserValidator userValidator;
-	
+	@Autowired
+	private EmailSenderService senderService;
 	
 	
 	public Controllers(Serveses userService, UserValidator userValidator) {
@@ -46,8 +51,9 @@ public class Controllers {
 			BindingResult result, 
 			Model model, 
 			HttpSession session,
-			HttpServletRequest request) {
+			HttpServletRequest request ,@RequestParam("email")String email) {
 		userValidator.validate(user, result);
+		
 		// Store the password before it is encrypted
 		String password = user.getPassword();
 		if(result.hasErrors()) {
@@ -60,7 +66,9 @@ public class Controllers {
 			userService.newUser(user, "ROLE_USER");
 //			session.setAttribute("user_id", newUser.getId());
 		}
-		
+		senderService.sendSimpleEmail(email,
+				"onlin Garage",
+				"Thank you to vist our online site");
 		// Log in new user with the password we stored before encrypting it
 		authWithHttpServletRequest(request, user.getEmail(), password);
 		return "redirect:/";
@@ -249,6 +257,7 @@ public class Controllers {
 	                return "redirect:/home";
 	            }
 	       }
+	       
 	    @GetMapping("/addcar")
 	    public String addcar(@ModelAttribute("car") Cars car,Principal principal,Model model) {
 	    	String email = principal.getName();
@@ -308,6 +317,30 @@ public class Controllers {
 	    	
 	    	return "ShowAll.jsp";
 	    }
+	    //---------------------------------------------------------------------------------------------------email
+	    @PostMapping("/email/{mail}")
+		public String sendEmail(@RequestParam("subject") String subject,@RequestParam("message") String message,@PathVariable("mail")String mail,HttpSession session) {
+			senderService.sendSimpleEmail(mail,subject,message);
+			Long is =(Long) session.getAttribute("mail");
+			return "redirect:/send/email/"+is;
+		}
+//	    @EventListener(ApplicationReadyEvent.class)
+//	    @GetMapping("/mails")
+//		public void triggerMail() throws MessagingException {
+//			senderService.sendSimpleEmail("ahmadhamdan8592@gmail.com",
+//					"This is email body",
+//					"This is email subject");
+//		
+//		}
+	    @GetMapping("/send/email/{id}")
+	    public String email(@PathVariable("id")Long id,Model model,HttpSession session,Principal principal) {
+	    	String email = principal.getName();
+	    	User user = userService.findByEmail(email);	
+	        model.addAttribute("tutor", user);
+	        session.setAttribute("mail", user.getId());
+	        return "Email.jsp";
+	    }
+	    
 //-------------------------------------------------------------------------------------------Part   	
 	  
 	    @PostMapping("/newpart")
