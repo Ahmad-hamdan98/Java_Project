@@ -106,11 +106,11 @@ public class Serveses {
     		return null;
     	}
     }
-    public Cars createcar(Cars team) {
-		return carRepo.save(team);
+    public Cars createcar(Cars car) {
+		return carRepo.save(car);
 	}
-    public Parts createpart(Parts team) {
-    	return partRepo.save(team);
+    public Parts createpart(Parts part) {
+    	return partRepo.save(part);
     }
     
     //--------------------------------------------------------------------------------------------

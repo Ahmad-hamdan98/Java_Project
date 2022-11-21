@@ -20,9 +20,10 @@
  <div class="row">
    <div class="col-lg-6 mx-auto">
      <div class="bg-white rounded-lg shadow-lg p-4">
-	  <form role="form">
-	  <form:form action="/addcar" method="post" modelAttribute="car">
-	  <!-- <form:input type="hidden" path="user" value="${user.id}"/>-->
+<%-- 	  <form role="form">
+ --%>	  
+	  <form:form action="/addcare" method="post" modelAttribute="car">
+	   <form:input type="hidden" path="user" value="${user.id}"/>
         <div class="tab-content">
           <!-- credit card info-->
           <div class="tab-pane fade show active">          
@@ -55,13 +56,14 @@
               <br>              
            </div>
          </div>
-         <ul role="tablist" class="nav bg-light nav-pills rounded-pill nav-fill mb-3">
+       <!--   <ul role="tablist" class="nav bg-light nav-pills rounded-pill nav-fill mb-3">
          	<li class="nav-item">
-            <a data-toggle="pill" href="#" class="nav-link active rounded-pill"><i class="fa fa-credit-card"></i>
+            <a data-toggle="pill" href="/addcar" class="nav-link active rounded-pill"><i class="fa fa-credit-card"></i>
             Add My Car</a></li>
-         </ul>
+         </ul> -->
+         <input type="submit"  class="btn btn-primary" value="Add car">
       </form:form>
-      </form>
+    <%--   </form> --%>
    </div>
   </div>
  </div>

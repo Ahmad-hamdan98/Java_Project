@@ -141,6 +141,7 @@ public class Controllers {
 		 
 		return "redirect:/admin";
 	}
+	
 //----------------------------------------------------------------------------------	
 //	 @Autowired
 //	public final Serveses userServ;
@@ -201,20 +202,12 @@ public class Controllers {
 //	    	model.addAttribute("user", user);
 //	    	}
 	    	
-	    	return "redirect:/welcome";
+	    	return "redirect:/home";
 	    }
-	    @GetMapping("/welcome")
-	    public String home2(Principal principal,HttpSession session,Model model) {
-	    	String email = principal.getName();
-			User user = userService.findByEmail(email);
-			model.addAttribute("user", user);
-	    	
-//	    	model.addAttribute("user1", session.getAttribute("user"));
-	    	return "Welcome.jsp";
-	    }
+	   
 	    
 	    @GetMapping("/home")
-	    public String home1(@ModelAttribute("addcar") Cars car,Model model,HttpSession session,Principal principal) {
+	    public String home1(@ModelAttribute("car") Cars car,Model model,HttpSession session,Principal principal) {
 
 	    	
 //	    		User user = userService.findUser((Long) session.getAttribute("user_id"));
@@ -229,26 +222,30 @@ public class Controllers {
 	    	
 	    	return "ShowAll.jsp";
 	    }
+	    
+	    @GetMapping("/about")
+	    public String about() {
+	    	return "about.jsp";
+	    }
+	    
+	    
 //------------------------------------------------------------------------------------------------	    
-	    @GetMapping("/newcar")
-	    public String Addcar(@ModelAttribute("addcar") Cars car  ,Model model,HttpSession session) {
-	    	
-	    	User user = userService.findUser((Long) session.getAttribute("user_id"));
-	    	
+	    @GetMapping("/addcar")
+	    public String addcar(@ModelAttribute("car") Cars car,Principal principal,Model model) {
+	    	String email = principal.getName();
+	    	User user = userService.findByEmail(email);
 	    	model.addAttribute("user", user);
-	    	
-	    	return "addcar.jsp";
-	    	
+	    	return "addcarpage.jsp";
 	    }
 	   
-	    @PostMapping("/addcar")
-	    public String createCar(@Valid @ModelAttribute("addcar") Cars car ,BindingResult result ,Model model,HttpSession session) {
+	    @PostMapping("/addcare")
+	    public String createCar(@Valid @ModelAttribute("car") Cars car ,BindingResult result ,Model model,HttpSession session) {
 	        if (result.hasErrors()) {
-	            return "addcar.jsp";
+	            return "addcarpage.jsp";
 	        } else {
 	        	
 	        	userService.createcar(car);
-	    		User user = userService.findUser((Long)session.getAttribute("user_id"));
+	    		
 //	         	user.getTeams().add(car);
 //	    		userServ.createTeam(car);
 	            return "redirect:/home";

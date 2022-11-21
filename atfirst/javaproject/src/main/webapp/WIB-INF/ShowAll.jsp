@@ -36,7 +36,7 @@
         </ul>  
       </li>  
       
-      <li><a href="#">About us</a></li>  
+      <li><a href="/about">About us</a></li>  
       <li><a href="#">Profile</a></li>  
     </ul>  
     <ul class="nav navbar-nav navbar-right">
@@ -57,7 +57,7 @@
 <div class="container"> 
     
 	<h1>Welcome ${user.firstName}</h1>  
-  <a href="/newcar" class="btn btn-secondary">Add New Car</a>
+  <a href="/addcar" class="btn btn-secondary">Add New Car</a>
   <a href="/showcar" class="btn btn-secondary"> My Car/Cars</a>
 
   	
@@ -76,13 +76,38 @@
 
 <hr>
 
-<c:forEach var="part" items="${allparts}">
-<p>${part.partName}</p>
+
+
+<table class="table table-striped">
+    <thead>
+     
+        <tr>
+            <th>Part Name</th>
+            <th>Part Price(1-5)</th>
+          
+            <th>Part Amount</th>
+            <th>Number of people</th>
+        </tr>
+        </thead>
+        
+      
+      <tbody>
+   
+       <c:forEach var="part" items="${allparts}">
+<tr>
+
+<td>${part.partName}<td>
+<td>${part.price}<td>
+<td>${part.amount}<td>
+
+
+
+</tr>
 
 <hr>
 </c:forEach>
-
-
+    </tbody>
+</table>
 
 
 </body>  
