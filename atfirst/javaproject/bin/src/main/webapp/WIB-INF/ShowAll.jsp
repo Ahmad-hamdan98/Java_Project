@@ -1,5 +1,4 @@
- 
- <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> 
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> 
 <!-- c:out ; c:forEach etc. --> 
   <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
  <!-- Formatting (dates) --> 
@@ -15,7 +14,7 @@
 <head>  
 
   <title>Bootstrap Case</title>  
-  <meta charset="utf-8">  
+  <meta charset="utf-8 "> 
   <meta name="viewport" content="width=device-width, initial-scale=1">  
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">  
     
@@ -37,7 +36,7 @@
         </ul>  
       </li>  
       
-      <li><a href="#">About us</a></li>  
+      <li><a href="/about">About us</a></li>  
       <li><a href="#">Profile</a></li>  
     </ul>  
     <ul class="nav navbar-nav navbar-right">
@@ -56,26 +55,62 @@
 </nav>  
    
 <div class="container"> 
-    <c:choose>
-    	<c:when test="${user.id!=Null}"> 
-	<h1>Welcome ${user.userName}</h1>  
-  <a href="/newcar" class="btn btn-secondary">Add New Car</a>
-  <a href="/showcar" class="btn btn-secondary">Show My Cars</a>
-  </c:when>
+    
+	<h1>Welcome ${user.firstName}</h1>  
+  <a href="/addcar" class="btn btn-secondary">Add New Car</a>
+  <a href="/showcar" class="btn btn-secondary"> My Car/Cars</a>
+
   	
-  </c:choose> 
-      <c:choose>
-    	<c:when test="${user.email eq('car@admin.com')}"> 
-    	<p> <a href="/showorders" class="btn btn-secondary">Show Orders</a>
-  		<a href="/addpart" class="btn btn-secondary">Add New Parts</a></p>
-   </c:when>
-  </c:choose> 
+<%--    </C:CHOOSE> 
+      <C:CHOOSE>
+    	<C:WHEN TEST="${USER.EMAIL EQ('CAR@ADMIN.COM')}"> 
+    	<P> <A HREF="/SHOWORDERS" CLASS="BTN BTN-SECONDARY">SHOW ORDERS</A>
+  		<A HREF="/ADDPART" CLASS="BTN BTN-SECONDARY">ADD NEW PARTS</A></P>
+   </C:WHEN>
+  </C:CHOOSE>   --%>
   
 </div>  
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>  
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>  
 
 
+<hr>
 
+
+
+<table class="table table-striped">
+    <thead>
+     
+        <tr>
+            <th>Part Name</th>
+            <th>Part Price(1-5)</th>
+            <th>Part Amount</th>
+           
+        </tr>
+        </thead>
+        
+      
+      <tbody>
+   
+       <c:forEach var="part" items="${allparts}">
+<tr>
+
+<td>${part.partName}<td>
+<td>${part.price}<td>
+<td>${part.amount}<td>
+
+
+
+</tr>
+
+<hr>
+</c:forEach>
+    </tbody>
+</table>
+
+<form id="logoutForm" method="POST" action="/logout">
+<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+<input type="submit" value="Logout!" />
+</form>
 </body>  
 </html> 

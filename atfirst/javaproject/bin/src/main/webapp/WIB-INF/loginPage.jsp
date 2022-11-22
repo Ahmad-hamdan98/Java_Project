@@ -44,7 +44,7 @@
 	            <td class="float-left">Email:</td>
 	            <td class="float-left">
 	            	<form:errors path="email" class="text-danger"/>
-					<form:input class="input" path="email"/>
+					<form:input class="input" name="email" path="email"/>
 	            </td>
 	        </tr>
 	        <tr>
