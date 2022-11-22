@@ -336,14 +336,13 @@ public class Controllers {
 	      public String order(@PathVariable("idI")Long idI,Principal principal,HttpSession session,Model model) { 
 
 	        int sum=0;
-	        int amount=0;
 	        String email = principal.getName();
 	         Parts part = userService.findById1(idI);
 	         
 	         if(session.getAttribute("order")==null) {
 	             orders order =new orders();
-	           
-	             
+	             int amount=0;
+	             session.setAttribute("amount", amount);
 	             
 	            List<Parts> i=new ArrayList<Parts>();
 	            i.add(part);
@@ -354,11 +353,8 @@ public class Controllers {
 
 	             for(int j=0;j< order.getParts().size();j++) {
 	                 sum+=order.getParts().get(j).getPrice();
-	                 order.getParts().get(j).setAmount((order.getParts().get(j).getAmount())-1);
-	                 userService.createpart(order.getParts().get(j));
 	             }
 	             session.setAttribute("sum", sum);
-	             session.setAttribute("amount", amount);
 	             }
 	         else {
 	         orders order=(orders)session.getAttribute("order");
@@ -369,8 +365,7 @@ public class Controllers {
 
 	             for(int j=0;j< order.getParts().size();j++) {
 	                 sum+=order.getParts().get(j).getPrice();
-	                 order.getParts().get(j).setAmount((order.getParts().get(j).getAmount())-1);
-	                 userService.createpart(order.getParts().get(j));
+
 	             }
 	            session.setAttribute("sum", sum);
 	             }
@@ -396,7 +391,7 @@ public class Controllers {
 	    	
 	    	String email = principal.getName();
 	    	User user = userService.findByEmail(email);
-	    	String x =user.getEmail();
+	    	
 	    	order.setUser(user);
 	    	
 //	    	order.getParts().set(orderamount, session.getAttribute("amount")+);
@@ -407,9 +402,6 @@ public class Controllers {
 	    	List<Parts> allparts=userService.allpart();
     		model.addAttribute("allparts", allparts);
     		session.setAttribute("order", null);
-//    		senderService.sendSimpleEmail(x,
-//    				"onlin Garage",
-//    				"Thank you for ordering from our site , your order well be in your hands in two days");
 	    	return "redirect:/home";
 	    	
 	    }

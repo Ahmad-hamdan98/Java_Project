@@ -355,7 +355,6 @@ public class Controllers {
 	             for(int j=0;j< order.getParts().size();j++) {
 	                 sum+=order.getParts().get(j).getPrice();
 	                 order.getParts().get(j).setAmount((order.getParts().get(j).getAmount())-1);
-	                 userService.createpart(order.getParts().get(j));
 	             }
 	             session.setAttribute("sum", sum);
 	             session.setAttribute("amount", amount);
@@ -369,8 +368,7 @@ public class Controllers {
 
 	             for(int j=0;j< order.getParts().size();j++) {
 	                 sum+=order.getParts().get(j).getPrice();
-	                 order.getParts().get(j).setAmount((order.getParts().get(j).getAmount())-1);
-	                 userService.createpart(order.getParts().get(j));
+
 	             }
 	            session.setAttribute("sum", sum);
 	             }

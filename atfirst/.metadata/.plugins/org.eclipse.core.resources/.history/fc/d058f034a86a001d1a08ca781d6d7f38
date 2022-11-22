@@ -354,8 +354,7 @@ public class Controllers {
 
 	             for(int j=0;j< order.getParts().size();j++) {
 	                 sum+=order.getParts().get(j).getPrice();
-	                 order.getParts().get(j).setAmount((order.getParts().get(j).getAmount())-1);
-	                 userService.createpart(order.getParts().get(j));
+	                 order.getParts().get(j).setAmount(order.getParts().get(j).getAmount()-1);
 	             }
 	             session.setAttribute("sum", sum);
 	             session.setAttribute("amount", amount);
@@ -369,8 +368,7 @@ public class Controllers {
 
 	             for(int j=0;j< order.getParts().size();j++) {
 	                 sum+=order.getParts().get(j).getPrice();
-	                 order.getParts().get(j).setAmount((order.getParts().get(j).getAmount())-1);
-	                 userService.createpart(order.getParts().get(j));
+
 	             }
 	            session.setAttribute("sum", sum);
 	             }
@@ -396,7 +394,7 @@ public class Controllers {
 	    	
 	    	String email = principal.getName();
 	    	User user = userService.findByEmail(email);
-	    	String x =user.getEmail();
+	    	
 	    	order.setUser(user);
 	    	
 //	    	order.getParts().set(orderamount, session.getAttribute("amount")+);
@@ -407,9 +405,9 @@ public class Controllers {
 	    	List<Parts> allparts=userService.allpart();
     		model.addAttribute("allparts", allparts);
     		session.setAttribute("order", null);
-//    		senderService.sendSimpleEmail(x,
-//    				"onlin Garage",
-//    				"Thank you for ordering from our site , your order well be in your hands in two days");
+    		senderService.sendSimpleEmail(email,
+    				"onlin Garage",
+    				"Thank you for ordering from our site , your order well be in your hands in two days");
 	    	return "redirect:/home";
 	    	
 	    }
