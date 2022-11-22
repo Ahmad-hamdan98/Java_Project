@@ -86,14 +86,14 @@
 					<form:input class="input inputs" path="email" type="email"/>
 	            </td>
 	        </tr>
-	        <tr><td><form:errors path="email" class="text-danger"/></td> </tr>
+	       <%--  <tr><td><form:errors path="email" class="text-danger"/></td> </tr> --%>
 	        <tr>
 	            <td class="float-left">Password:</td>
 	            <td class="float-right">
 					<form:input class="input inputs" path="password" type="password"/>
 	            </td>
 	        </tr>
-	        <tr><td><form:errors path="password" class="text-danger"/></td> </tr>
+	        <%-- <tr><td><form:errors path="password" class="text-danger"/></td> </tr> --%>
 	    </thead>
 	    <tr class="button-area">
 	       	<td colspan=2><input class="input btn btn-success" type="submit" value="Login"/></td>
