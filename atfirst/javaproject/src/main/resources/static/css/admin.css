@@ -1,0 +1,58 @@
+@charset "ISO-8859-1";
+
+h1 {
+	color: white;
+	margin-top:10px;
+}
+
+table {
+	border: 5px solid black;
+	
+}
+
+.navbar {
+	position: fixed;
+	top: 0;
+	width: 100%;
+	z-index: 1;
+}
+
+form table {
+	width: 250px;
+	border: 10px solid black;
+}
+
+.container {
+	margin-top:50px;
+	text-align: center;
+}
+
+tr {
+	background-color: black;
+	color: white;
+}
+
+.main {
+	display: flex;	
+	gap:50px;
+	margin-top:50px;
+}
+
+@media only screen and (max-width: 600px) {
+	h1 {
+		text-align: center;
+		
+	}
+	
+	.container div {
+		display:flex;
+	   	justify-content: center;
+	   	gap:20px;
+	}
+	
+  .main{
+  	display:flex;
+   	justify-content: center;
+   	flex-wrap:wrap;
+  }
+}

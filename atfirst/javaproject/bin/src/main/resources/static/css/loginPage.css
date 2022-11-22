@@ -1,0 +1,95 @@
+@charset "ISO-8859-1";
+
+* {
+	margin:0;
+	padding:0;
+}
+
+body {
+	display: flex;
+	flex-direction:column;
+	justify-content:space-around;
+	align-items:center;
+	width:100%;
+	background-color: #e6e6e6;
+	
+}
+
+h1 {
+	text-align: center;
+	margin-top:50px;
+}
+
+main {
+	display: flex;
+	width: 60%;
+	justify-content: space-between;
+	margin-top:50px;
+	flex-wrap:wrap;
+}
+
+.register {
+	background-color: white;
+	
+	width:400px;
+	padding:30px;
+	border: 2px solid black;
+	border-radius: 20px;
+	box-shadow: 4px 5px 4px gray;
+}
+
+.login {
+	background-color: white;
+	height:350px;
+	width:400px;
+	padding:30px;
+	border: 2px solid black;
+	border-radius: 20px;
+	box-shadow: 4px 5px 4px gray;
+}
+
+tr {
+	display: flex;
+	justify-content: space-between;
+	align-items:center;
+	width: 315px;
+	margin-top:10px;
+}
+
+.title {
+	font-size: 45px;
+}
+
+.message {
+	margin-top:10px;
+}
+
+.inputs {
+	margin-top:10px;
+	margin-left:40px;
+}
+
+.button {
+	display: flex;
+	justify-content: flex-end;
+	margin-top:20px;
+}
+
+tr.button-area {
+	display: flex;
+	justify-content: right;
+	width:100%;
+}
+
+.test {
+	display: flex;
+	flex-direction: column;
+}
+
+@media only screen and (max-width: 600px) {
+  main {
+  	display:flex;
+   	justify-content: center;
+   	gap:50px;
+  }
+}
