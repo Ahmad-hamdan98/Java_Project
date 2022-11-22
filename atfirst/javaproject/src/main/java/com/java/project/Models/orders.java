@@ -26,13 +26,8 @@ public class orders {
 	    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	    private Long id;
 	 
-	   @Future
-	    @DateTimeFormat(pattern="yyyy-MM-dd")
-		private Date dueDate;
 	   
-	    @NotEmpty(message="Note is required!")
-	    @Size(min=3, max=100, message="Note must be between 3 and 100 characters")
-	    private String note;
+	  
 	    //--------------------------------------------------------------
 	    @ManyToOne(fetch = FetchType.LAZY)
 	    @JoinColumn(name="user_id")
@@ -61,24 +56,6 @@ public class orders {
 		}
 
 
-		public Date getDueDate() {
-			return dueDate;
-		}
-
-
-		public void setDueDate(Date dueDate) {
-			this.dueDate = dueDate;
-		}
-
-
-		public String getNote() {
-			return note;
-		}
-
-
-		public void setNote(String note) {
-			this.note = note;
-		}
 
 
 		public User getUser() {

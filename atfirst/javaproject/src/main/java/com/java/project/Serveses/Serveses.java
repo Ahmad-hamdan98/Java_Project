@@ -42,13 +42,15 @@ public class Serveses {
 	private BCryptPasswordEncoder bCryptPwEncoder;
 	
 	
-    public Serveses(com.java.project.Repositories.userRepo userRepo, com.java.project.Repositories.carRepo carRepo,
-			com.java.project.Repositories.partRepo partRepo, RoleRepository roleRepo,
-			BCryptPasswordEncoder bCryptPwEncoder) {
+    
+	public Serveses(com.java.project.Repositories.userRepo userRepo, com.java.project.Repositories.carRepo carRepo,
+			com.java.project.Repositories.partRepo partRepo, com.java.project.Repositories.orderRepo orderRepo,
+			RoleRepository roleRepo, BCryptPasswordEncoder bCryptPwEncoder) {
 		super();
 		this.userRepo = userRepo;
 		this.carRepo = carRepo;
 		this.partRepo = partRepo;
+		this.orderRepo = orderRepo;
 		this.roleRepo = roleRepo;
 		this.bCryptPwEncoder = bCryptPwEncoder;
 	}
@@ -111,15 +113,19 @@ public class Serveses {
     public Cars createcar(Cars car) {
 		return carRepo.save(car);
 	}
+    public orders createorder(orders order) {
+    	return orderRepo.save(order);
+    }
+    
     public Parts createpart(Parts part) {
     	return partRepo.save(part);
     }
-    public void deletePart(Long id) {
-	  	   Optional<Parts> ex = partRepo.findById(id);
-	         if(ex.isPresent()) {
-	        	 partRepo.deleteById(id);
-	         }
-	  }
+//    public void deletePart(Long Parts) {
+//	  	   Optional<Parts> ex = partRepo.findById(id);
+//	         if(ex.isPresent()) {
+//	        	 partRepo.deleteById(id);
+//	         }
+//	  }
     //--------------------------------------------------------------------------------------------
 
 	
@@ -149,9 +155,20 @@ public class Serveses {
 	public void deleteUser(User user) {
 		userRepo.delete(user);
 	}
+	public void deletePart(Long id) {
+		partRepo.deleteById(id);
+	}
+	
     
     public User findById(Long id) {
     	Optional<User> potentialUser = userRepo.findById(id);
+    	if(potentialUser.isPresent()) {
+    		return potentialUser.get();
+    	}
+    	return null;
+    }
+    public Parts findById1(Long id) {
+    	Optional<Parts> potentialUser = partRepo.findById(id);
     	if(potentialUser.isPresent()) {
     		return potentialUser.get();
     	}
@@ -186,6 +203,17 @@ public class Serveses {
 		
 		return partRepo.findAll();
 	}
+	
+//	public List<orders> addpart(Parts part) {
+//		// TODO Auto-generated method stub
+//		return orderRepo.add(part);
+//	}
+	
+	
+//	public User findUserbyname(String username) {
+//		
+//		return userRepo.findByEmail(username);
+//	}
     
 	
 //	

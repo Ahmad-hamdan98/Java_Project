@@ -135,7 +135,7 @@ body, html {
 			  	<img src="${part.image}" class="card-img-top" alt="part_img">
 			    <h5 class="card-title">$${part.price}.00</h5>
 			    <h5 class="card-title">${part.amount} in stock</h5>
-			    <a href="#" class="btn btn-primary">Add to cart</a>
+			    
 			 </div>
 		</div>
 	</c:forEach>

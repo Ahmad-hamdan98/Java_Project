@@ -1,6 +1,7 @@
 package com.java.project.Controllers;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -144,15 +145,15 @@ public class Controllers {
 		return "home.jsp";
 	}
 	
-	@RequestMapping("/delete/{id}")
-	public String deleteUser(@PathVariable("id") Long id, HttpSession session, Model model) {	
-		User user = userService.findById(id);
-		userService.deleteUser(user);
-		
-		model.addAttribute("users", userService.allUsers());
-		 
-		return "redirect:/admin";
-	}
+//	@RequestMapping("/delete/{id}")
+//	public String deleteUser(@PathVariable("id") Long id, HttpSession session, Model model) {	
+//		User user = userService.findById(id);
+//		userService.deleteUser(user);
+//		
+//		model.addAttribute("users", userService.allUsers());
+//		 
+//		return "redirect:/admin";
+//	}
     @GetMapping("/profile")
     public String profile(Principal principal, Model model) {
         String email = principal.getName();
@@ -297,8 +298,6 @@ public class Controllers {
 	    	
 	    }
 //--------------------------------------------------------------------------------------Orders
-	    
-	    
 	    @GetMapping("/showorders")
 	    public String Showorders(Principal principal,Model model,HttpSession session) {
 	    	
@@ -312,15 +311,93 @@ public class Controllers {
 	    	
 	    	return "Showorders.jsp";
 	    }
-	    @GetMapping("/order")
+	    @GetMapping("/makeorder")
 	    public String orderOrders(Principal principal,Model model,HttpSession session) {
+//	    	Parts part = userService.findById1(id);
+//	    	
+////	    	List<orders> orders=userService.addpart(part);
+////	    	orders order=userService.allpart();
+//	    	
+//	    	String email = principal.getName();
+//	    	User user = userService.findByEmail(email);	    	
+//	    	model.addAttribute("user", user);
+//	    	user.getOrders().addpart(part);
+	    	
 	    	
 	    	String email = principal.getName();
-	    	User user = userService.findByEmail(email);	    	
+	    	User user = userService.findByEmail(email);
 	    	model.addAttribute("user", user);
+	    	List<Parts> allparts=userService.allpart();
+    		model.addAttribute("allparts", allparts);
+	    	return "ShowAll1.jsp";
+	    }
+	    @GetMapping("/neworder/{idI}")
+	      public String order(@PathVariable("idI")Long idI,Principal principal,HttpSession session,Model model) { 
+
+	        int sum=0;
+	        String email = principal.getName();
+	         Parts part = userService.findById1(idI);
+	         
+	         if(session.getAttribute("order")==null) {
+	             orders order =new orders();
+	             int amount=0;
+	             session.setAttribute("amount", amount);
+	             
+	            List<Parts> i=new ArrayList<Parts>();
+	            i.add(part);
+	            
+	            order.setParts(i);
+	             session.setAttribute("order", order);
+
+	             for(int j=0;j< order.getParts().size();j++) {
+	                 sum+=order.getParts().get(j).getPrice();
+	             }
+	             session.setAttribute("sum", sum);
+	             }
+	         else {
+	         orders order=(orders)session.getAttribute("order");
+//	         User customer= userService.findUser(user);
+	         User user = userService.findByEmail(email);
+	             order.setUser(user);
+	             order.getParts().add(part);
+
+	             for(int j=0;j< order.getParts().size();j++) {
+	                 sum+=order.getParts().get(j).getPrice();
+
+	             }
+	            session.setAttribute("sum", sum);
+	             }
+	         List<Parts> allparts=userService.allpart();
+	    		model.addAttribute("allparts", allparts);
+	             return "redirect:/makeorder";
+	      }
+	    
+	    @RequestMapping("/mycart")
+	    public String mycard(Principal principal,Model model,HttpSession session) {
+	    	 orders order =(orders)session.getAttribute("order");
 	    	
+	    	 String email = principal.getName();
+	    	 User user = userService.findByEmail(email);
+	    	 model.addAttribute("user",user);
+	    	model.addAttribute("Allorders", user.getOrders());
 	    	
+	    	return "CartPage.jsp";
+	    }
+	    @RequestMapping("/aproof/{id}")
+	    public String mycardss(Principal principal,Model model,HttpSession session) {
+	    	orders order =(orders)session.getAttribute("order");
+	    	
+	    	String email = principal.getName();
+	    	User user = userService.findByEmail(email);
+	    	
+	    	order.setUser(user);
+	    	
+//	    	order.getParts().set(orderamount, session.getAttribute("amount")+);
+	    	
+	    	userService.createorder(order);
+	    	model.addAttribute("Allorders", user.getOrders());
 	    	return "ShowAll.jsp";
+	    	
 	    }
 	    //---------------------------------------------------------------------------------------------------email
 	    @PostMapping("/email/{mail}")
@@ -362,8 +439,9 @@ public class Controllers {
 	        }
 	    }
 	    @DeleteMapping("/delete/{id}")
-	      public String delete(@PathVariable("id")Long id) {
-
+	      public String delete2(@PathVariable("id")Long id) {
+	    	System.out.println("test");
+//	    	Parts part = userService.findById1(id);
 	    	userService.deletePart(id);
 	    	  return "redirect:/admin";
 	      }
@@ -374,34 +452,9 @@ public class Controllers {
 //	  		 model.addAttribute("editteam", project);
 //	  		 return "Edit.jsp";
 //	  	 }
-//	      @PutMapping("/editteams/{id}")
-//	  	 public String update(@Valid @ModelAttribute("editteam") Team team,BindingResult result,HttpSession session) {
-//	  		   if (result.hasErrors()) {
-//	  	            return "Edit.jsp";
-//	  	            }
-//	  		   else {
-//	  			 userServ.createTeam(team);
-//	  			 User user = userServ.findUser((Long)session.getAttribute("user_id"));
-//	  			user.getTeams().add(team);
-//	     		userServ.createTeam(team);
-//
-//	  			   return "redirect:/dashboard";
-//	  		   }
-//	  	 }
 
 
-	      
-	     
-	   
-	     
-	     
-	     
-	     
-	     
-	     
-	     
-	     
-	     
-	     
-	     
 }
+
+
+

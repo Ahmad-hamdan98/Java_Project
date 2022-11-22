@@ -1,0 +1,27 @@
+@charset "windows-1256";
+@media (min-width: 1025px) {
+.h-custom {
+height: 100vh !important;
+}
+}
+
+.card-registration .select-input.form-control[readonly]:not([disabled]) {
+font-size: 1rem;
+line-height: 2.15;
+padding-left: .75em;
+padding-right: .75em;
+}
+
+.card-registration .select-arrow {
+top: 13px;
+}
+
+.bg-grey {
+background-color: #eae8e8;
+}
+a,button{
+	text-decoration: none;
+}
+#form1{
+	width: 40px;
+}@charset "ISO-8859-1";

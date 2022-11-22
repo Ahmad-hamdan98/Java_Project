@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-
+import com.java.project.Models.Parts;
 import com.java.project.Models.orders;
 
 
@@ -18,9 +18,13 @@ public interface orderRepo extends CrudRepository<orders, Long>{
 
 	 
 	 List<orders> findAll();
+
+//	List<orders> add(Parts part);
 	 
-	 @Query(value="select * from Parts order by avg_rate desc limit 10",nativeQuery = true)
-		List<orders> UserOrder();
+//	 @Query(value="select * from Parts order by ",nativeQuery = true)
+//		List<orders> UserOrder();
+		
+		
 //	 Optional<User> findByEmail(String email);
 //	 Optional<User> findByEmail(String email);
 //	Object findByEmail(String email);
