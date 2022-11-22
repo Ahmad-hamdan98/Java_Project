@@ -131,9 +131,9 @@ body {
 
 
 
-		 <form action="/deletee/${part.id}" method="Post">
-<!--    			 <input type="hidden" name="_method" value="delete"> -->
-    		<input type="submit" value="Delete" ></form>
+		 <form action="/deletee/${part.id}" >
+<!--     			 <input type="hidden" name="_method" value="delete"> 
+ -->    		<input type="submit" value="Delete" ></form>
 </tr>
 <hr>
 </c:forEach>

@@ -438,7 +438,7 @@ public class Controllers {
 	            return "redirect:/home";
 	        }
 	    }
-	    @DeleteMapping("/delete/{id}")
+	    @GetMapping("/deletee/{id}")
 	      public String delete2(@PathVariable("id")Long id) {
 	    	System.out.println("test");
 //	    	Parts part = userService.findById1(id);
