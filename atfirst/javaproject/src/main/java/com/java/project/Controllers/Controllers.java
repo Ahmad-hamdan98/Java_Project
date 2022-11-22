@@ -354,9 +354,10 @@ public class Controllers {
 
 	             for(int j=0;j< order.getParts().size();j++) {
 	                 sum+=order.getParts().get(j).getPrice();
-	                 order.getParts().get(j).setAmount((order.getParts().get(j).getAmount())-1);
-	                 userService.createpart(order.getParts().get(j));
 	             }
+	             part.setAmount((part.getAmount())-1);
+	             userService.createpart(part);
+	             
 	             session.setAttribute("sum", sum);
 	             session.setAttribute("amount", amount);
 	             }
@@ -369,16 +370,59 @@ public class Controllers {
 
 	             for(int j=0;j< order.getParts().size();j++) {
 	                 sum+=order.getParts().get(j).getPrice();
-	                 order.getParts().get(j).setAmount((order.getParts().get(j).getAmount())-1);
-	                 userService.createpart(order.getParts().get(j));
 	             }
+	                 part.setAmount((part.getAmount())-1);
+	                 userService.createpart(part);
 	            session.setAttribute("sum", sum);
 	             }
 	         List<Parts> allparts=userService.allpart();
 	    		model.addAttribute("allparts", allparts);
 	             return "redirect:/makeorder";
 	      }
-	    
+	    //----------------------------------------------------------------------------------------------------------
+	    @GetMapping("/disorder/{idI}")
+	      public String disorder(@PathVariable("idI")Long idI,Principal principal,HttpSession session,Model model) { 
+
+	        String email = principal.getName();
+	         Parts part = userService.findById1(idI);
+	         
+	         orders order=(orders)session.getAttribute("order");
+	         
+	         
+	         List<Parts> parts = new ArrayList<Parts>();
+	         parts=order.getParts();
+	         System.out.println(parts.size());
+	         System.out.println(parts.get(0).getPartName());
+	         System.out.println(parts.get(1).getPartName());
+	         System.out.println(part.getPartName());
+	         for(int i=0;i<parts.size();i++) {
+	        	if(parts.get(i).getId()==part.getId()) 
+	        		 parts.remove(i);
+	         }
+	        
+	         System.out.println(parts.size());
+	         order.setParts(parts);
+	         userService.createorder(order);
+//	           part.getOrders().remove(order);
+	          
+//	         System.out.println(order.getParts());
+//	             order.getParts().remove(part);
+//	             
+//	             userService.createpart(part);
+//	             session.setAttribute("order1", order);
+//	             System.out.println(order.getParts());
+
+	             session.setAttribute("sum", (int)session.getAttribute("sum")-(part.getPrice()));
+	                 part.setAmount((part.getAmount())+1);
+	                 userService.createpart(part);
+	 
+		    	 User user = userService.findByEmail(email);
+		    	 userService.updateUser(user);
+		    	 model.addAttribute("user",user);
+		    	model.addAttribute("order", order);
+	             return "redirect:/mycart";
+	      }
+	    //----------------------------------------------------------------------------------------------------------
 	    @RequestMapping("/mycart")
 	    public String mycard(Principal principal,Model model,HttpSession session) {
 	    	 orders order =(orders)session.getAttribute("order");

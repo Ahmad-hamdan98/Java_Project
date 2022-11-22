@@ -68,7 +68,7 @@
                     <h1 class="fw-bold mb-0 text-black">Shopping Cart</h1>
                   
                   </div>
-    <c:forEach var="i" items="${order.parts}" > 
+    <c:forEach var="i" items="${order.getParts()}" > 
    
    
                   <hr class="my-4">
@@ -98,7 +98,7 @@
                       <h6 class="mb-0">$${i.price }.00</h6>
                     </div>
                     <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                      <a href="#" class="text-muted">X<i class="fas fa-times"></i></a>
+                      <a href="/disorder/${i.id }" class="text-muted">X<i class="fas fa-times"></i></a>
                     </div>
                   </div>
  </c:forEach>
