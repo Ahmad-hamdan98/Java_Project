@@ -1,0 +1,16 @@
+@charset "ISO-8859-1";
+
+h1 {
+	color: white;
+	margin-top:20px;
+}
+
+table {
+	border: 5px solid black;
+	
+}
+
+tr {
+	background-color: black;
+	color: white;
+}

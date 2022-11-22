@@ -16,43 +16,97 @@
   <title>Bootstrap Case</title>  
   <meta charset="utf-8 "> 
   <meta name="viewport" content="width=device-width, initial-scale=1">  
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">  
-    
-</head>  
-<body>  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="/css/ShowAll.css">
+</head>
+
+<style>
+
+body, html {
+  height: 100%;
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+ 
+ .bg-image {
+ 	background-image: url("images/test.jpg");
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
   
-<nav class="navbar navbar-inverse">  
-  <div class="container-fluid">  
-    <div class="navbar-header">  
-      <a class="navbar-brand" href="#">Online Carage</a>  
-    </div>  
-    <ul class="nav navbar-nav">  
-      <li class="active"><a href="#">Home</a></li>  
-      <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Page 1 <span class="caret"></span></a>  
-        <ul class="dropdown-menu">  
-          <li><a href="#">Page 1-1</a></li>  
-          <li><a href="#">Page 1-2</a></li>  
-          <li><a href="#">Page 1-3</a></li>  
-        </ul>  
-      </li>  
-      
-      <li><a href="/about">About us</a></li>  
-      <li><a href="#">Profile</a></li>  
-    </ul>  
-    <ul class="nav navbar-nav navbar-right">
-   <c:choose>
+  position: absolute;
+      left: 0px;
+      top: 0px;
+      z-index: -1;
+      width: 100%;
+      height: 100%;
+      -webkit-filter: blur(10px); /* Safari 6.0 - 9.0 */
+      filter: blur(10px);
+  	
+ }
+ 
+</style> 
+<body>
+<div class="bg-image"></div>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Online Garage</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/home">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/profile">Profile</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Dropdown
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/about">About Us</a>
+        </li>
+      </ul>
+      <%-- <form class="d-flex">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form> --%>
+      <c:choose>
     	<c:when test="${user.id!=Null}">  
-    	<li><a href="/logout"><span class="glyphicon glyphicon-user"></span>Logout</a></li>
-    	 </c:when>
-    	 <c:otherwise> 
-    	 
-      <li><a href="/login"><span class="glyphicon glyphicon-user"></span>Sign Up</a></li>  
-      <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>  
-   </c:otherwise>
+    		<li class="nav-item d-flex">
+    		<form id="logoutForm" method="POST" action="/logout">
+			    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+			    <input type="submit" value="Logout!"  class="btn btn-outline-danger"/>
+			</form>
+			</li>
+    	</c:when>
+    	<c:otherwise>
+      		<li><a class="btn btn-outline-success" href="/signup">Sign Up</a></li>  
+      		<li><a class="btn btn-outline-primary" href="/login"> Login</a></li>  
+   		</c:otherwise>
     	</c:choose> 
-    </ul>  
-  </div>  
-</nav>  
+    </div>
+  </div>
+</nav>
+
+
    
 <div class="container"> 
     
@@ -69,48 +123,41 @@
    </C:WHEN>
   </C:CHOOSE>   --%>
   
-</div>  
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>  
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>  
+
 
 
 <hr>
 
 
 
-<table class="table table-striped">
+<table class="table">
     <thead>
-     
         <tr>
             <th>Part Name</th>
             <th>Part Price(1-5)</th>
             <th>Part Amount</th>
-           
+            <th>Add Part</th>
         </tr>
         </thead>
         
-      
-      <tbody>
-   
-       <c:forEach var="part" items="${allparts}">
-<tr>
+	<tbody>
+      <c:forEach var="part" items="${allparts}">
+	<tr>
+		<td>${part.partName}</td>
+		<td>${part.price}</td>
+		<td>${part.amount}</td>
+		<td><a href="#">Add</a></td>
+	</tr>
 
-<td>${part.partName}<td>
-<td>${part.price}<td>
-<td>${part.amount}<td>
-
-
-
-</tr>
-
-<hr>
-</c:forEach>
+	</c:forEach>
     </tbody>
+    
+    
+    <hr>
 </table>
+</div>
 
-<form id="logoutForm" method="POST" action="/logout">
-<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-<input type="submit" value="Logout!" />
-</form>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+
 </body>  
 </html> 
