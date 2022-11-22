@@ -93,6 +93,13 @@ body {
 				</td>
 			</tr>
 			<tr>
+				<td>
+					<form:label path="image">image</form:label>
+					<form:input  class="form-control" path="image"/>
+					<form:errors path="image" class="red"/>
+				</td>
+			</tr>
+			<tr>
             			
                               
                                 </tr>
@@ -107,19 +114,14 @@ body {
 <div class="flex">
 <table class="table table-striped">
     <thead>
-     
         <tr>
             <th>Part Name</th>
             <th>Part Price</th>
             <th>Part Amount</th>
-            <th>Delete Part </th>
-           
+            <th>Delete Part </th> 
         </tr>
         </thead>
-        
-      
       <tbody>
-   
        <c:forEach var="part" items="${allparts}">
 <tr>
 
@@ -128,11 +130,10 @@ body {
 <td>${part.amount}<td>
 
 
- <form action="/delete/${part.id}" method="post">
-   			 <input type="hidden" name="_method" value="delete">
-    		<input type="submit" value="Delete" >
+		 <form action="/deletee/${part.id}" >
+<!--     			 <input type="hidden" name="_method" value="delete"> 
+ -->    		<input type="submit" value="Delete" ></form>
 </tr>
-
 <hr>
 </c:forEach>
     </tbody>
