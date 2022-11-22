@@ -401,7 +401,7 @@ public class Controllers {
 	    	model.addAttribute("sum", session.getAttribute("sum"));
 	    	List<Parts> allparts=userService.allpart();
     		model.addAttribute("allparts", allparts);
-    		session.setAttribute("order", null);
+    		session.invalidate();
 	    	return "redirect:/home";
 	    	
 	    }
