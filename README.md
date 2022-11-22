@@ -6,8 +6,7 @@ website that allows people to make a connection between them and garage owners, 
 the website and this will help people to know about available parts in this garage and its prices. Also it allows people to book a date in the
 garage in order to make a change on their car like color ,,,ect.
 
-
-
+<br>
 ## Features:
 #### For Customer
 | feature | Description |
