@@ -153,7 +153,12 @@ public class Controllers {
 		 
 		return "redirect:/admin";
 	}
-	
+    @GetMapping("/profile")
+    public String profile(Principal principal, Model model) {
+        String email = principal.getName();
+     model.addAttribute("currentUser", userService.findByEmail(email));
+        return "profilPage.jsp";
+    }
 //----------------------------------------------------------------------------------	
 //	 @Autowired
 //	public final Serveses userServ;
