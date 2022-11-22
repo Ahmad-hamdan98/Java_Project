@@ -43,6 +43,7 @@ public class Parts {
 	    @Min(1)
 	    private int amount;
 	    
+	    private String image;
 	    public Parts() {}
 	    
 	    @Column(updatable=false)
@@ -67,6 +68,14 @@ public class Parts {
 //----------------------------------------------------------------------------------------
 		public Long getId() {
 			return id;
+		}
+
+		public String getImage() {
+			return image;
+		}
+
+		public void setImage(String image) {
+			this.image = image;
 		}
 
 		public void setId(Long id) {

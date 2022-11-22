@@ -1,0 +1,143 @@
+ <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> 
+<!-- c:out ; c:forEach etc. --> 
+  <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+ <!-- Formatting (dates) --> 
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%> 
+<!-- form:form -->
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<!-- for rendering errors on PUT routes -->
+    
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="/css/style.css">
+<title>Admin Dashboard</title>
+<style >
+.container{display: flex;justify-content:space-between ;}
+#logoutForm{margin-top: 50%}
+#a{margin-top: 4%}
+body {
+    background-image: url("images/img3.jpg");
+}
+</style>
+<meta name="viewport" content="width=device-width, initial-scale=1">  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"> 
+</head>
+<body>
+<nav class="navbar navbar-inverse">  
+  <div class="container-fluid">  
+    <div class="navbar-header">  
+      <a class="navbar-brand" href="#">Online Garage</a>  
+    </div>  
+    <ul class="nav navbar-nav">  
+      <li class="active"><a href="/home">Home</a></li>  
+      <li ><a href="/profiles">profiles</a></li>  
+      
+      
+      <li><a href="/about">About us</a></li>  
+      
+    </ul>  
+    <ul class="nav navbar-nav navbar-right">
+   
+    	<!-- <li><a href="/logout"><span class="glyphicon glyphicon-user"></span>Logout</a></li> -->
+    	
+    	 <form id="logoutForm" method="POST" action="/logout" >
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+    <input type="submit" value="Logout!" <span class="glyphicon glyphicon-user"></span>/>
+</form>
+     <!--  <li><a href="/login"><span class="glyphicon glyphicon-user"></span>Sign Up</a></li>  
+      <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>  --> 
+  
+    </ul>  
+  </div>  
+</nav>  
+   
+<div class="container">
+<div>
+<h1>Welcome, ${currentUser.firstName}</h1></div><div>
+
+</div>
+</div>
+<h2>Add Parts</h2>
+<div class="container">
+<div class="flex">
+<form:form action="/newpart" method="post" modelAttribute="addpart">
+			<form:input type="hidden" path="user" value="${user.id}"/>					
+		<table>
+			<tr>
+				<td>
+					<form:label path="partName">Part Name</form:label>
+					<form:input path="partName" class="form-control"/>
+					<form:errors path="partName" class="red"/>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<form:label path="description">description</form:label>
+					<form:input type="textarea" path="description" class="form-control"/>
+					<form:errors path="description" class="red"/>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<form:label path="price">Part price</form:label>
+					<form:input type="number" min="1" path="price" class="form-control"/>
+					<form:errors path="price" class="red"/>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<form:label path="amount">amount</form:label>
+					<form:input  min="1"  class="form-control" path="amount"/>
+					<form:errors path="amount" class="red"/>
+				</td>
+			</tr>
+			<tr>
+            			
+                              
+                                </tr>
+                                
+				<td> <br>
+					<input type="submit"  class="btn btn-primary" value="Add part">
+				</td>
+		</table>
+
+</form:form>
+</div>
+<div class="flex">
+<table class="table table-striped">
+    <thead>
+     
+        <tr>
+            <th>Part Name</th>
+            <th>Part Price</th>
+            <th>Part Amount</th>
+            <th>Delete Part </th>
+           
+        </tr>
+        </thead>
+        
+      
+      <tbody>
+   
+       <c:forEach var="part" items="${allparts}">
+<tr>
+
+<td>${part.partName}<td>
+<td>${part.price}<td>
+<td>${part.amount}<td>
+
+
+ <form action="/delete/${part.id}" method="post">
+   			 <input type="hidden" name="_method" value="delete">
+    		<input type="submit" value="Delete" >
+</tr>
+
+<hr>
+</c:forEach>
+    </tbody>
+</table>
+</div>
+</div>
+</body>
+</html>

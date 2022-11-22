@@ -93,6 +93,13 @@ body {
 				</td>
 			</tr>
 			<tr>
+				<td>
+					<form:label path="image">image</form:label>
+					<form:input  class="form-control" path="image"/>
+					<form:errors path="image" class="red"/>
+				</td>
+			</tr>
+			<tr>
             			
                               
                                 </tr>

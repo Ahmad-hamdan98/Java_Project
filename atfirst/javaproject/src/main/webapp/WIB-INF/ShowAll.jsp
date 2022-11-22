@@ -146,6 +146,7 @@ body, html {
 		<td>${part.partName}</td>
 		<td>${part.price}</td>
 		<td>${part.amount}</td>
+		<td><img alt="asd" src="${part.image}" style=width:40px;></td>
 		<td><a href="#">Add</a></td>
 	</tr>
 
