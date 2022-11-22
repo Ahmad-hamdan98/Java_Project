@@ -7,7 +7,6 @@ the website and this will help people to know about available parts in this gara
 garage in order to make a change on their car like color ,,,ect.
 
 
-![This is an image](relative link for pic)
 
 ## Features:
 #### For Customer
