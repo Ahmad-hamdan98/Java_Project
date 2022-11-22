@@ -1,8 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+
     pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page isErrorPage="true" %>  
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core"%>
+<!-- c:out ; c:forEach etc. --> 
+  <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+  
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,6 +22,8 @@
 </head>
 <body><br><br><br>
 
+   
+		
 <section class="h-100 h-custom" >
   <div class="container py-5 h-100">
     <div class="row d-flex justify-content-center align-items-center h-100">
@@ -29,18 +35,21 @@
                 <div class="p-5">
                   <div class="d-flex justify-content-between align-items-center mb-5">
                     <h1 class="fw-bold mb-0 text-black">Shopping Cart</h1>
-                    <h6 class="mb-0 text-muted">3 items</h6>
+                  
                   </div>
+    <c:forEach var="i" items="${order.parts}" > 
+   
+   
                   <hr class="my-4">
                   <div class="row mb-4 d-flex justify-content-between align-items-center">
                     <div class="col-md-2 col-lg-2 col-xl-2">
                       <img
-                        src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-shopping-carts/img5.webp"
+                        src="${i.image }"
                         class="img-fluid rounded-3" alt="Cotton T-shirt">
                     </div>
                     <div class="col-md-3 col-lg-3 col-xl-3">
-                      <h6 class="text-muted">Shirt</h6>
-                      <h6 class="text-black mb-0">Cotton T-shirt</h6>
+                      <h6 class="text-muted"> ${i.partName}</h6>
+                      <h6 class="text-black mb-0">${i.description}</h6>
                     </div>
                     <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
                       <button class="btn px-2"
@@ -55,12 +64,13 @@
                       </button>
                     </div>
                     <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                      <h6 class="mb-0">$ 44.00</h6>
+                      <h6 class="mb-0">$ ${i.price }</h6>
                     </div>
                     <div class="col-md-1 col-lg-1 col-xl-1 text-end">
                       <a href="#" class="text-muted">X<i class="fas fa-times"></i></a>
                     </div>
                   </div>
+ </c:forEach>
 
                   <hr class="my-4">
                   <div class="pt-5">
@@ -78,15 +88,18 @@
                 <div class="p-5">
                   <h3 class="fw-bold mb-5 mt-2 pt-1">Summary</h3>
                   <hr class="my-4">
-                  <div class="d-flex justify-content-between mb-4">
-                    <h5 class="text-uppercase">items 3</h5>
-                    <h5>$ 132.00</h5>
-                  </div>
-                  <hr class="my-4">
+                 <c:forEach var="i" items="${order.parts}" >
+                 <div class="d-flex justify-content-between mb-5">
+                    <h5 class="text-uppercase">${i.partName} price</h5>
+                    <h5>${i.price}</h5>
+                  </div> 
+                   </c:forEach>
+                    <hr class="my-4">
                   <div class="d-flex justify-content-between mb-5">
                     <h5 class="text-uppercase">Total price</h5>
-                    <h5>$ 137.00</h5>
+                    <h5>${sum}</h5>
                   </div>
+                  <hr class="my-4">
  				<form:form action="/confirmorder" method="post" modelAttribute="order">
 					<input type="submit" class="btn btn-primary"  value="Agree"/>
 				</form:form> 
