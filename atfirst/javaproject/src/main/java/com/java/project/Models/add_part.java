@@ -18,9 +18,9 @@ public class add_part {
 	    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	    private Long id;
 	 	
-	  @NotEmpty(message="amount is required!")
-	    @Min(1)
-	    private int orderamount;
+	
+	
+	    private Integer orderamount;
 	 
 	 @ManyToOne( fetch = FetchType.LAZY)
 	 @JoinColumn(name="order_id")
@@ -36,10 +36,10 @@ public class add_part {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public int getOrderamount() {
+	public Integer getOrderamount() {
 		return orderamount;
 	}
-	public void setOrderamount(int orderamount) {
+	public void setOrderamount(Integer orderamount) {
 		this.orderamount = orderamount;
 	}
 

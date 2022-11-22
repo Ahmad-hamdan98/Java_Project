@@ -55,7 +55,7 @@ public class Parts {
 	    
 	    @ManyToMany(fetch = FetchType.LAZY)
 	    @JoinTable(
-	        name = "add_part", 
+	        name = "add_parts", 
 	        joinColumns = @JoinColumn(name = "part_id"), 
 	        inverseJoinColumns = @JoinColumn(name = "order_id")
 	    )

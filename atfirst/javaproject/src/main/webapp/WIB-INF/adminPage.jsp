@@ -130,7 +130,6 @@ body {
 <td>${part.amount}<td>
 
 
-
 		 <form action="/deletee/${part.id}" >
 <!--     			 <input type="hidden" name="_method" value="delete"> 
  -->    		<input type="submit" value="Delete" ></form>

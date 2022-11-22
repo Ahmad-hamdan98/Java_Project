@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.java.project.Models.Cars;
 import com.java.project.Models.Parts;
 import com.java.project.Models.User;
+import com.java.project.Models.add_part;
 import com.java.project.Models.orders;
 import com.java.project.Serveses.EmailSenderService;
 import com.java.project.Serveses.Serveses;
@@ -348,6 +349,7 @@ public class Controllers {
 	            
 	            order.setParts(i);
 	             session.setAttribute("order", order);
+	             
 
 	             for(int j=0;j< order.getParts().size();j++) {
 	                 sum+=order.getParts().get(j).getPrice();
@@ -379,11 +381,11 @@ public class Controllers {
 	    	 String email = principal.getName();
 	    	 User user = userService.findByEmail(email);
 	    	 model.addAttribute("user",user);
-	    	model.addAttribute("Allorders", user.getOrders());
-	    	
+	    	model.addAttribute("order", order);
+//	    	user.getOrders().get(0);
 	    	return "CartPage.jsp";
 	    }
-	    @RequestMapping("/aproof/{id}")
+	    @RequestMapping("/confirmorder")
 	    public String mycardss(Principal principal,Model model,HttpSession session) {
 	    	orders order =(orders)session.getAttribute("order");
 	    	
@@ -396,6 +398,10 @@ public class Controllers {
 	    	
 	    	userService.createorder(order);
 	    	model.addAttribute("Allorders", user.getOrders());
+	    	model.addAttribute("sum", session.getAttribute("sum"));
+	    	List<Parts> allparts=userService.allpart();
+    		model.addAttribute("allparts", allparts);
+    		session.invalidate();
 	    	return "ShowAll.jsp";
 	    	
 	    }
@@ -438,6 +444,7 @@ public class Controllers {
 	            return "redirect:/home";
 	        }
 	    }
+	    
 	    @GetMapping("/deletee/{id}")
 	      public String delete2(@PathVariable("id")Long id) {
 	    	System.out.println("test");
