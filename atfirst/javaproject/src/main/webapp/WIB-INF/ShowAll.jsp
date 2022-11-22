@@ -40,6 +40,7 @@ body, html {
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+  background-attachment: fixed;
   
   position: absolute;
       left: 0px;
@@ -111,8 +112,10 @@ body, html {
 <div class="container"> 
     
 	<h1>Welcome ${user.firstName}</h1>  
-  <a href="/addcar" class="btn btn-secondary">Add New Car</a>
-  <a href="/showcar" class="btn btn-secondary"> My Car/Cars</a>
+  	<div>
+  		<a href="/addcar" class="btn btn-secondary">Add New Car</a>
+	  	<a href="/makeorder" class="btn btn-secondary"> Make Order</a>
+  	</div>
 
   	
 <%--    </C:CHOOSE> 
@@ -123,39 +126,20 @@ body, html {
    </C:WHEN>
   </C:CHOOSE>   --%>
   
-
-
-
 <hr>
-
-
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>Part Name</th>
-            <th>Part Price(1-5)</th>
-            <th>Part Amount</th>
-            <th>Add Part</th>
-        </tr>
-        </thead>
-        
-	<tbody>
-      <c:forEach var="part" items="${allparts}">
-	<tr>
-		<td>${part.partName}</td>
-		<td>${part.price}</td>
-		<td>${part.amount}</td>
-		<td><img alt="asd" src="${part.image}" style=width:40px;></td>
-		<td><a href="#">Add</a></td>
-	</tr>
-
+     <div class="cards">
+     	<c:forEach var="part" items="${allparts}">
+	     <div class="card" style="width: 18rem;">
+			 <div class="card-body">
+			    <h3 class="card-title">${part.partName}</h3>
+			  	<img src="${part.image}" class="card-img-top" alt="part_img">
+			    <h5 class="card-title">$${part.price}.00</h5>
+			    <h5 class="card-title">${part.amount} in stock</h5>
+			    <a href="#" class="btn btn-primary">Add to cart</a>
+			 </div>
+		</div>
 	</c:forEach>
-    </tbody>
-    
-    
-    <hr>
-</table>
+     </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
